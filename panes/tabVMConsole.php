@@ -13,10 +13,10 @@
 // Load default VRDE tab
 if($('#vboxPane').data('vboxSystemProperties') && $('#vboxPane').data('vboxSystemProperties').defaultVRDEExtPack.indexOf('VNC') > -1) {
 	// VNC
-	$('#vboxTabVMConsole').load('panes/tabVMConsoleVNC.html');
+	$('#vboxTabVMConsole').load('panes/tabVMConsoleVNC.php');
 } else {
 	// RDP
-	$('#vboxTabVMConsole').load('panes/tabVMConsoleRDP.html');
+	$('#vboxTabVMConsole').load('panes/tabVMConsoleRDP.php');
 }
 
 // Load new on host change
@@ -27,10 +27,10 @@ $('#vboxPane').on('hostChanged', function() {
 	// Load default VRDE tab
 	if($('#vboxPane').data('vboxSystemProperties') && $('#vboxPane').data('vboxSystemProperties').defaultVRDEExtPack.indexOf('VNC') > -1) {
 		// VNC
-		$('#vboxTabVMConsole').load('panes/tabVMConsoleVNC.html');
+		$('#vboxTabVMConsole').load('panes/tabVMConsoleVNC.php');
 	} else {
 		// RDP
-		$('#vboxTabVMConsole').load('panes/tabVMConsoleRDP.html');
+		$('#vboxTabVMConsole').load('panes/tabVMConsoleRDP.php');
 	}
 	
 });

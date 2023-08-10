@@ -1,18 +1,33 @@
-<!-- 
+<?php
+require_once(dirname(__FILE__).'/../endpoints/lib/config.php');
+require_once(dirname(__FILE__).'/../endpoints/lib/utils.php');
+require_once(dirname(__FILE__).'/../endpoints/lib/vboxconnector.php');
 
-	Advanced panes for new virtual machine wizard. Logic in vboxWizard()
+// Init session
+global $_SESSION;
+session_init(true);
+
+if (!$_SESSION['admin']) {
+    die("You don't have permissions");
+}
+?>
+
+<!--
+
+	Panes for new virtual machine wizard. Logic in vboxWizard()
 	Copyright (C) 2010-2015 Ian Moore (imoore76 at yahoo dot com)
 	
-	$Id: wizardNewVMAdvanced.html 595 2015-04-17 09:50:36Z imoore76 $
+	$Id: wizardNewVM.html 595 2015-04-17 09:50:36Z imoore76 $
 
  -->
 
 <!-- Step 1 -->
-<div id='wizardNewVMStep1' style='display: none'>
+<div id='wizardNewVMStep1' title='Name and operating system' style='display: none'>
 
-	<span class='vboxTableLabel translate'>Name and operating system</span>
+	<p class='translate vboxWizardDescription'>Please choose a descriptive name for the new virtual machine and select the type of operating system you intend to install on it. The name you choose will be used throughout VirtualBox to identify this machine.</p>
+	
 	<div class='vboxOptions'>
-		<table class='vboxOptions vboxOSTypeOptions' style='width:100%'>
+		<table class='vboxOptions' style='width:100%'>
 			<tr>
 				<th style='width: 1%'><span class='translate'>Name:</span></th>
 				<td colspan='2'><input type='text' class='vboxText' name='newVMName' style='width: 95%' /></td>
@@ -32,8 +47,13 @@
 			</tr>
 		</table>
 	</div>
+</div>
 
-	<span class='vboxTableLabel translate'>Memory size</span>
+
+<!-- Step 2 -->
+<div id='wizardNewVMStep2' title='Memory size' style='display: none'>
+	<span id='newVMSizeLabel'></span>
+	
 	<div class='vboxOptions'>
 	
 		<table style='width: 100%'>
@@ -57,7 +77,14 @@
 		</table>
 	</div>
 	
-	<span class='vboxTableLabel translate'>Hard disk</span>
+</div>
+
+<!-- Step 3 -->
+<div id='wizardNewVMStep3' title='Hard disk' style='display: none'>
+
+	<span id='newVMHDSizeLabel'></span>
+
+	
 	<div class='vboxOptions'>
 	
 		<table class='vboxOptions' id='newVMBootDiskTable' style='width:100%;'>
@@ -88,9 +115,10 @@
 <script type='text/javascript'>
 
 /* Translations */
-$('#wizardNewVMStep1').find('table.vboxOSTypeOptions').find('span.translate').html(function(i,h) {
+$('#wizardNewVMStep1').find('table.vboxOptions').find('span.translate').html(function(i,h) {
 	return trans(h,'UINameAndSystemEditor');
 }).removeClass('translate');
+
 
 
 var wizardNewVMToolbar = new vboxToolbarSingle({button: {
@@ -113,11 +141,11 @@ function newVMToggleNewDisk(dis) {
 	if(dis) {
 		wizardNewVMToolbar.disable();
 		document.forms['frmwizardNewVM'].newVMDiskSelect.disabled = true;
-		$('#wizardNewVMStep1').find('.vboxMediumSelect').trigger('disable');
+		$('#wizardNewVMStep3').find('.vboxMediumSelect').trigger('disable');
 	} else {
 		wizardNewVMToolbar.enable();
 		document.forms['frmwizardNewVM'].newVMDiskSelect.disabled = (document.forms['frmwizardNewVM'].newVMDiskSelect.options.length > 0 ? false : true);
-		$('#wizardNewVMStep1').find('.vboxMediumSelect').trigger('enable');
+		$('#wizardNewVMStep3').find('.vboxMediumSelect').trigger('enable');
 	}
 	
 } 
@@ -146,25 +174,20 @@ function vmNewFillExistingDisks(sel) {
 	s.sort(function(a,b){return strnatcasecmp(a.name,b.name);});
 	
 	var mediumSelects = [];
-	var selectedIndex = -1;
+	var selectedIndex = 0;
 	for(var i = 0; i < s.length; i++) {
-		document.forms['frmwizardNewVM'].newVMDiskSelect.options[i] = new Option(vboxMedia.mediumPrint(s[i]),s[i].id, (sel && sel == s[i].id));
+		document.forms['frmwizardNewVM'].newVMDiskSelect.options[i] = new Option(vboxMedia.mediumPrint(s[i]),s[i].id);
 		if(s[i].readOnly && s[i].deviceType == 'HardDisk') $(document.forms['frmwizardNewVM'].newVMDiskSelect.options[i]).addClass('vboxMediumReadOnly');
 		mediumSelects[i] = {'attachedId':s[i].id,'id':s[i].id,'base':s[i].base,'label':vboxMedia.mediumPrint(s[i])};
 		if(sel == s[i].id) {
 			selectedIndex = i;
 		}
 	}
-	if(selectedIndex > -1) {
+	if(selectedIndex) {
 		document.forms['frmwizardNewVM'].newVMDiskSelect.selectedIndex = selectedIndex;
 	}
 	
 	$(document.forms['frmwizardNewVM'].newVMDiskSelect).mediumselect({'type':'HardDisk','showdiff':false,'media':mediumSelects});
-	
-	if(sel) {
-		$(document.forms['frmwizardNewVM'].newVMDiskSelect).mediumselect({'selectMedium':sel});
-		$(document.forms['frmwizardNewVM'].newVMDiskSelect).val(sel);
-	}
 }
 
 vmNewFillExistingDisks();
@@ -192,8 +215,16 @@ function newVMUpdateOS(ostype) {
 	ostype = newVMOSTypesObj[ostype];
 
 	$('#wizardNewVMSize').slider('value',ostype.recommendedRAM);	
-	$('#newVMSizeLabel').html(trans('The recommended memory size is <b>%1</b> MB.','UIWizardNewVMPage3').replace('%1',ostype.recommendedRAM));
-	$('#newVMHDSizeLabel').html(trans('<p>If you wish you can add a virtual hard disk to the new machine. You can either create a new hard disk file or select one from the list or from another location using the folder icon.</p><p>If you need a more complex storage set-up you can skip this step and make the changes to the machine settings once the machine is created.</p><p>The recommended size of the hard disk is <b>%1</b>.</p>','UIWizardNewVMPage4').replace('%1',vboxMbytesConvert(ostype.recommendedHDD)));
+	
+	$('#newVMSizeLabel').html(trans("<p>Select the amount of memory (RAM) in megabytes "+
+            "to be allocated to the virtual machine.</p>"+
+            "<p>The recommended memory size is <b>%1</b> MB.</p>",'UIWizardNewVM').replace('%1',ostype.recommendedRAM));
+	
+	$('#newVMHDSizeLabel').html(trans("<p>If you wish you can add a virtual hard disk to the new machine. "+
+	        "You can either create a new hard disk file or select one from the list or from another location "+
+	        "using the folder icon.</p><p>If you need a more complex storage set-up you can skip this step "+
+	        "and make the changes to the machine settings once the machine is created.</p><p>The recommended "+
+	        "size of the hard disk is <b>%1</b>.</p>",'UIWizardNewVM').replace('%1',vboxMbytesConvert(ostype.recommendedHDD)));
 	
 }
 
@@ -255,6 +286,58 @@ newVMUpdateOS(document.forms['frmwizardNewVM'].newVMOSType.options[document.form
  * END OS TYPES
  */
 
+$('#wizardNewVMStep1').on('show',function(e,wiz){
+	$(document.forms['frmwizardNewVM'].newVMName).focus();	 
+});
+ 
+/* When going to step2, make sure a name is entered */
+$('#wizardNewVMStep2').on('show',function(e,wiz){
+
+	document.forms['frmwizardNewVM'].newVMName.value = jQuery.trim(document.forms['frmwizardNewVM'].newVMName.value);
+
+	if(!document.forms['frmwizardNewVM'].newVMName.value) {
+		$(document.forms['frmwizardNewVM'].newVMName).addClass('vboxRequired');
+		// Go back
+		wiz.displayStep(1);
+		return;
+	}
+
+	var l = new vboxLoader();
+	l.add('vboxGetComposedMachineFilename',function(d){
+		
+		loc = vboxDirname(d.responseData);
+		
+		var fe = new vboxLoader();
+		fe.add('fileExists',function(d){
+			fileExists = d.responseData;
+		},{'file':loc});
+		fe.onLoad = function() { 
+			if(fileExists) {
+				vboxAlert(trans('<p>Cannot create the machine folder <b>%1</b> in the parent folder <nobr><b>%2</b>.</nobr></p><p>This folder already exists and possibly belongs to another machine.</p>','UIMessageCenter').replace('%1',vboxBasename(loc)).replace('%2',vboxDirname(loc)));
+				// Go back
+				wiz.displayStep(1);
+	
+				return;
+			}
+			$(document.forms['frmwizardNewVM'].newVMName).removeClass('vboxRequired');
+			
+			// Update disabled / enabled items
+			if(document.forms['frmwizardNewVM'].newVMDisk[0].checked) {
+				$(document.forms['frmwizardNewVM'].newVMDisk[0]).trigger('click');
+			} else {
+				$(document.forms['frmwizardNewVM'].newVMDisk[1]).trigger('click');
+			}
+			
+		};
+		fe.run();
+		
+		
+	},{'name':document.forms['frmwizardNewVM'].newVMName.value, 'group':wiz.vmgroup});
+	
+	l.run();
+	
+});
+
 /* When hard disk is enabled / disabled */
 $('#newVMHDTriggerBind').on('enable',function(){
 
@@ -267,10 +350,8 @@ $('#newVMHDTriggerBind').on('enable',function(){
 	
 }).on('disable',function(){
 	newVMToggleNewDisk(true);
-}).trigger('disable');
-
-$('#wizardNewVMStep1').on('show',function() {
-	$(document.forms['frmwizardNewVM'].newVMName).focus();
 });
 
+ 
+ 
 </script>

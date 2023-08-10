@@ -1,3 +1,16 @@
+<?php
+require_once(dirname(__FILE__).'/../endpoints/lib/config.php');
+require_once(dirname(__FILE__).'/../endpoints/lib/utils.php');
+require_once(dirname(__FILE__).'/../endpoints/lib/vboxconnector.php');
+
+// Init session
+global $_SESSION;
+session_init(true);
+
+if (!$_SESSION['admin']) {
+    die("You don't have permissions");
+}
+?>
 <!--
 
 	Shows guest networking adapters. This requires that Guest Additions be

@@ -43,7 +43,7 @@ var sButtons = new Array(
 		'click' : function () {
 	
 			var l = new vboxLoader();
-			l.addFileToDOM('panes/userEdit.html');
+			l.addFileToDOM('panes/userEdit.php');
 			l.onLoad = function(){
 
 				// Set mode
@@ -122,7 +122,7 @@ var sButtons = new Array(
 		'enabled' : function (item) { return (item && $(item).data('username') && $(item).data('username') == $('#vboxPane').data('vboxSession').user); },
 		'click' : function () {
 			var l = new vboxLoader();
-			l.addFileToDOM('panes/userEdit.html');
+			l.addFileToDOM('panes/userEdit.php');
 			l.onLoad = function(){
 				
 				// Set mode
@@ -176,7 +176,7 @@ var sButtons = new Array(
 		'click' : function () {
 			
 			var l = new vboxLoader();
-			l.addFileToDOM('panes/userEdit.html');
+			l.addFileToDOM('panes/userEdit.php');
 			l.onLoad = function(){
 
 				// Set mode

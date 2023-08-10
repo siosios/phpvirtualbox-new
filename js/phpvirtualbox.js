@@ -2847,7 +2847,7 @@ function vboxWizard() {
 		for(var i = 0; i < this.data.length; i++) {
 			l.add(this.data[i].fn,this.data[i].callback,(this.data[i].args ? this.data[i].args: undefined));
 		}
-		l.addFileToDOM('panes/'+this.name+(this.mode == 'advanced' ? 'Advanced': '')+'.html',$('#'+this.name+'Content'));
+		l.addFileToDOM('panes/'+this.name+(this.mode == 'advanced' ? 'Advanced': '')+'.php',$('#'+this.name+'Content'));
 		
 		l.onLoad = function(){
 		
@@ -2884,7 +2884,7 @@ function vboxWizard() {
 							
 							
 							var vl = new vboxLoader();
-							vl.addFileToDOM('panes/'+self.name+'Advanced.html',$('#'+self.name+'Content'));
+							vl.addFileToDOM('panes/'+self.name+'Advanced.php',$('#'+self.name+'Content'));
 							vl.onLoad = function() {
 								
 								// Change this button text
@@ -2932,7 +2932,7 @@ function vboxWizard() {
 							self.steps = self.simpleSteps;
 							
 							var vl = new vboxLoader();
-							vl.addFileToDOM('panes/'+self.name+'.html',$('#'+self.name+'Content'));
+							vl.addFileToDOM('panes/'+self.name+'.php',$('#'+self.name+'Content'));
 							vl.onLoad = function() {
 								
 								// Change this button text

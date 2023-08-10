@@ -1,4 +1,17 @@
-<!-- 
+<?php
+
+require_once(dirname(__FILE__).'/../endpoints/lib/config.php');
+require_once(dirname(__FILE__).'/../endpoints/lib/utils.php');
+require_once(dirname(__FILE__).'/../endpoints/lib/vboxconnector.php');
+
+// Init session
+global $_SESSION;
+session_init(true);
+
+$is_admin = !!$_SESSION['admin'];
+?>
+
+<!--
 
 	Main / Top menu
 	Copyright (C) 2010-2015 Ian Moore (imoore76 at yahoo dot com)
@@ -22,6 +35,7 @@ var menu = {
 	'name':'vboxTopFile',
 	'label': 'File',
 	'menu':[
+        <? if($is_admin): ?>
         {
 			'name':'fileVMM',
 			'label':'Virtual Media Manager...',
@@ -51,6 +65,7 @@ var menu = {
 			'click':function(){vboxGlobalPrefsDialog();},
 			'separator':true
         }
+        <?endif;?>
 	]
 };
 
@@ -63,7 +78,7 @@ if($('#vboxPane').data('vboxSession').user) {
 			'icon' : 'register',
 			'click': function() {
 				var l = new vboxLoader();
-				l.addFileToDOM('panes/userEdit.html');
+				l.addFileToDOM('panes/userEdit.php');
 				l.onLoad = function(){
 					
 					// Set mode
@@ -182,12 +197,12 @@ vboxTopMenuBar.addMenu({
 		return (!chooser || (chooser.selectionMode != vboxSelectionModeSingleGroup));
 	},
 	'menu':[
-	    vboxVMActions['new'],
+	    <?if($is_admin):?>vboxVMActions['new'],
 	    vboxVMActions['add'],
 	    vboxVMActions['settings'],
 	    vboxVMActions['clone'],
 	    vboxVMActions['remove'],
-	    vboxVMActions['group'],
+	    vboxVMActions['group'],<?endif;?>
 	    $.extend({},vboxVMActions['start'],{'separator':true}),
 	    vboxVMActions['pause'],
 	    vboxVMActions['reset'],
@@ -206,10 +221,10 @@ vboxTopMenuBar.addMenu({
 		return (chooser && (chooser.selectionMode == vboxSelectionModeSingleGroup));
 	},
 	'menu':[
-    	vboxVMGroupActions['newmachine'],
+    	<?if($is_admin):?>vboxVMGroupActions['newmachine'],
     	vboxVMGroupActions['addmachine'],
     	$.extend({}, vboxVMGroupActions['rename'], {separator:true}),
-    	vboxVMGroupActions['ungroup'],
+    	vboxVMGroupActions['ungroup'],<?endif;?>
     	$.extend({},vboxVMActions['start'],{'name':'start','separator' : true}),
         vboxVMActions['pause'],
         vboxVMActions['reset'],
@@ -243,7 +258,7 @@ vboxTopMenuBar.addMenu({
 	        	$('#vboxPane').append($('<div />').attr({'id':'vboxAbout','class':'vboxDialogContent','style':'display: none; width: 500px;'}));
 	
 	        	var l = new vboxLoader();
-	        	l.addFileToDOM('panes/about.html',$('#vboxAbout'));
+	        	l.addFileToDOM('panes/about.php',$('#vboxAbout'));
 	        	l.onLoad = function() {
 		        	var buttons = {};
 		        	buttons[trans('Close','UIVMLogViewer')] = function() { $(this).empty().remove(); };

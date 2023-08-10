@@ -363,7 +363,7 @@ var vmmButtons = new Array(
 			buttons[trans('Cancel','QIMessageBox')] = function() { $(this).empty().remove(); };
 			
 			var l = new vboxLoader();
-			l.addFileToDOM("panes/vmmISCSI.html",$(d));
+			l.addFileToDOM("panes/vmmISCSI.php",$(d));
 			l.onLoad = function() {
 		    	$(d).dialog({'width':400,'height':350,'buttons':buttons,'modal':true,'autoOpen':true,'dialogClass':'vboxDialogContent','title':trans('Add iSCSI')});
 			};
@@ -460,7 +460,7 @@ var vmmButtons = new Array(
 			buttons[trans('Cancel','QIMessageBox')] = function() { $(this).empty().remove(); };
 			
 			var l = new vboxLoader();
-			l.addFileToDOM("panes/vmmModify.html",$(d));
+			l.addFileToDOM("panes/vmmModify.php",$(d));
 			l.onLoad = function() {
 				
 				var msg = trans('<p>You are about to change the settings of the disk image file <b>%1</b>.</p><p>Please choose one of the following modes and press <b>%2</b> to proceed or <b>%3</b> otherwise.</p>','UIMediumTypeChangeDialog');

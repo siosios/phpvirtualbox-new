@@ -1,4 +1,16 @@
-<!-- 
+<?php
+
+require_once(dirname(__FILE__).'/../endpoints/lib/config.php');
+require_once(dirname(__FILE__).'/../endpoints/lib/utils.php');
+require_once(dirname(__FILE__).'/../endpoints/lib/vboxconnector.php');
+
+// Init session
+global $_SESSION;
+session_init(true);
+
+$is_admin = !!$_SESSION['admin'];
+?>
+<!--
 
 	Virtual Machine List
 	Copyright (C) 2010-2015 Ian Moore (imoore76 at yahoo dot com)
@@ -29,10 +41,10 @@ for(var i = 0; i < vboxVMActions.stop_actions.length; i++) {
 
 // VM List Group context menu
 vboxChooser.setContextMenu('group', [
-	vboxVMGroupActions['newmachine'],
+	<?if($is_admin):?>vboxVMGroupActions['newmachine'],
 	vboxVMGroupActions['addmachine'],
 	$.extend({}, vboxVMGroupActions['rename'], {separator: true}),
-	vboxVMGroupActions['ungroup'],
+	vboxVMGroupActions['ungroup'],<?endif;?>
 	$.extend({}, vboxVMActions['start'], {'separator' : true}),
     vboxVMActions['pause'],
     vboxVMActions['reset'],
@@ -49,9 +61,9 @@ vboxChooser.setContextMenu('group', [
  
 vboxChooser.setContextMenu('vm',[
    	vboxVMActions['settings'],
-   	vboxVMActions['clone'],
+   	<?if($is_admin):?>vboxVMActions['clone'],
    	vboxVMActions['remove'],
-   	vboxVMActions['group'],
+   	vboxVMActions['group'],<?endif;?>
    	$.extend({},vboxVMActions['start'], {'separator' : true}),
     vboxVMActions['pause'],
     vboxVMActions['reset'],
@@ -68,7 +80,7 @@ sChildren = null;
  * VM list context menu setup
  */
 vboxChooser.setContextMenu('anchor', [
-	vboxVMActions['new'],
+	<?if($is_admin):?>vboxVMActions['new'],
 	vboxVMActions['add'],
 	{
 		'name':'fileImport',
@@ -85,6 +97,7 @@ vboxChooser.setContextMenu('anchor', [
 		'icon':'export',
 		'click':function(){new vboxWizardExportApplianceDialog().run(); }
 	},
+    <?endif;?>
 	$.extend({},vboxVMGroupActions['sort'],{'separator':true,click:function(){
 		vboxChooser.sortSelectedGroup(true);
 	}})

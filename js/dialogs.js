@@ -290,7 +290,7 @@ function vboxMediumEncryptionPasswordsDialog(context, encIds, validIds) {
     var dialogTitle = trans("%1 - Disk Encryption").replace('%1', context);
     
     var l = new vboxLoader();
-    l.addFileToDOM("panes/mediumEncryptionPasswords.html");
+    l.addFileToDOM("panes/mediumEncryptionPasswords.php");
     l.onLoad = function() {
 
         for(var i = 0; i < encIds.length; i++) {    
@@ -334,7 +334,7 @@ function vboxPortForwardConfigDialog(rules) {
 	var results = $.Deferred();
 	
 	var l = new vboxLoader();
-	l.addFileToDOM("panes/settingsPortForwarding.html");
+	l.addFileToDOM("panes/settingsPortForwarding.php");
 	l.onLoad = function(){
 		
 		vboxSettingsPortForwardingInit(rules);
@@ -670,7 +670,7 @@ function vboxShowLogsDialogInit(vm) {
 	l.add('machineGetLogFilesList',function(r){
 		$('#vboxVMLogsDialog').data({'logs':r.responseData.logs,'logpath':r.responseData.path});
 	},{'vm':vm.id});
-	l.addFileToDOM('panes/vmlogs.html',$('#vboxVMLogsDialog'));
+	l.addFileToDOM('panes/vmlogs.php',$('#vboxVMLogsDialog'));
 	l.onLoad = function(){
 		var buttons = {};
 		buttons[trans('Refresh','UIVMLogViewer')] = function() {
@@ -712,7 +712,7 @@ function vboxVMMDialog(select,type,hideDiff,mPath) {
 	l.add('getConfig',function(d){$('#vboxPane').data('vboxConfig',d.responseData);});
 	l.add('vboxSystemPropertiesGet',function(d){$('#vboxPane').data('vboxSystemProperties',d.responseData);});
 	l.add('vboxGetMedia',function(d){$('#vboxPane').data('vboxMedia',d.responseData);});
-	l.addFileToDOM('panes/vmm.html',$('#vboxVMMDialog'));
+	l.addFileToDOM('panes/vmm.php',$('#vboxVMMDialog'));
 	l.onLoad = function() {
 		var buttons = {};
 		if(select) {
@@ -1046,7 +1046,7 @@ function vboxGuestNetworkAdaptersDialogInit(vm) {
 	 * Loader
 	 */
 	var l = new vboxLoader();
-	l.addFileToDOM('panes/guestNetAdapters.html',$('#vboxGuestNetworkDialog'));
+	l.addFileToDOM('panes/guestNetAdapters.php',$('#vboxGuestNetworkDialog'));
 	l.onLoad = function(){
 		
 		var buttons = {};
@@ -1629,7 +1629,7 @@ function vboxSettingsDialog(title,panes,data,pane,icon,langContext,presave) {
 		// Settings pane
 		$('#vboxSettingsList').append($('<div />').attr({'id':'vboxSettingsPane-'+panes[i].name,'style':'display: none;','class':'vboxSettingsPaneSection ui-corner-all ' + (panes[i].tabbed ? 'vboxTabbed' : 'vboxNonTabbed')}));
 		
-		loader.addFileToDOM('panes/settings'+panes[i].name+'.html',$('#vboxSettingsPane-'+panes[i].name));
+		loader.addFileToDOM('panes/settings'+panes[i].name+'.php',$('#vboxSettingsPane-'+panes[i].name));
 		
 	}
 	

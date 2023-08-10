@@ -1,70 +1,76 @@
-<!-- 
+<?php
+require_once(dirname(__FILE__).'/../endpoints/lib/config.php');
+require_once(dirname(__FILE__).'/../endpoints/lib/utils.php');
+require_once(dirname(__FILE__).'/../endpoints/lib/vboxconnector.php');
 
-	Panes for import appliance wizard. Logic in vboxWizard() class
+// Init session
+global $_SESSION;
+session_init(true);
+
+if (!$_SESSION['admin']) {
+    die("You don't have permissions");
+}
+?>
+<!--
+
+	Advanced panes for import appliance wizard. Logic in vboxWizard() class
 	Copyright (C) 2010-2015 Ian Moore (imoore76 at yahoo dot com)
 	
-	$Id: wizardImportAppliance.html 595 2015-04-17 09:50:36Z imoore76 $
+	$Id: wizardImportApplianceAdvanced.html 595 2015-04-17 09:50:36Z imoore76 $
 
  -->
 <!-- Step 1 -->
-<div id='wizardImportApplianceStep1' title='Appliance to import' style='display: none'>
+<div id='wizardImportApplianceStep1' style='display: none'>
 
-	<span class='translate'>&lt;p&gt;VirtualBox currently supports importing appliances saved in the Open Virtualization Format (OVF). To continue, select the file to import below.&lt;/p&gt;</span>
+	<table class='vboxInvisible' style='border: 0px solid transparent; border-spacing: 4px; height: 100%;'>
+	<tr style='vertical-align: top'>
+		<td style='height: 1%'>
+
+			<span class='translate vboxTableLabel'>Appliance to import</span>
+			<hr style='width: 100%; margin: 0px; margin-bottom: 6px; display: block' class='vboxSeparatorLine'/>
+			
+			<input type="button" id='vboxWizardImportApplianceButton' value='Open appliance...' onClick="wizardImportApplianceBrowseLocation()" />
+			<input type='hidden' name='wizardImportApplianceLocation' />
+			<span id='vboxWizardImportApplianceFilename'> </span>
+		</td>
+	<tr style='vertical-align: top'>
+		<td>
+			<div class='vboxBordered' id='vboxImportPropsContainer' style='overflow: auto;'>
+				<table style='width: 100%;' class='vboxHorizontal'>
+					<!--
+					<thead>
+						<tr>
+							<th style='text-align: left; width: 1%; padding-left: 10px' class='translate'>Description</th>
+							<th style='text-align: left; padding-left: 10px;' class='translate'>Configuration</th>
+						</tr>
+					</thead>
+					 -->
+					<tbody id='vboxImportProps' style='font-size: 0.9em;'>
+					</tbody>
+				</table>
+			</div>
+		</td>
+	</tr>
+	<tr style='vertical-align: top'>
+		<td style='height: 1%'>
+			<div style='margin:2px;margin-top:4px;padding:0px;'><label><input type='checkbox' class='vboxCheckbox' name='vboxImportReinitNetwork' />
+				<span class='translateglob'>Reinitialize the MAC address of all network cards</span></label>
+			</div>
+		</td>
+	</tr>
+	</table>
 	
-	<div class='vboxOptions'>
-		<table style='width: 100%;' class='vboxOptions'>
-			<tr>
-				<td style='width: 100%; white-space: nowrap' class='vboxFileFolderInput'>
-					<input type='text' class='vboxText' name='wizardImportApplianceLocation' style='width: 100%'/>
-				</td>
-				<td style='width:1%' id='wizardImportApplianceLocationButton'></td>
-			</tr>
-		</table>
-	</div>
-		
 </div>
 
 
-<!-- Step 2 -->
-<div id='wizardImportApplianceStep2' title='Appliance settings' style='display: none; width: 100%;'>
-
-	<div class='translate' style='margin-bottom:8px;'>These are the virtual machines contained in the appliance and the suggested settings of the imported VirtualBox machines. You can change many of the properties shown by double-clicking on the items and disable others using the check boxes below.</div>
-
-	<div class='vboxBordered' id='vboxImportPropsContainer' style='overflow: auto;'>
-		<table style='width: 100%;' class='vboxHorizontal'>
-			<!--
-			<thead>
-				<tr>
-					<th style='text-align: left; width: 1%; padding-left: 10px' class='translate'>Description</th>
-					<th style='text-align: left; padding-left: 10px;' class='translate'>Configuration</th>
-				</tr>
-			</thead>
-			 -->
-			<tbody id='vboxImportProps'>
-			</tbody>
-		</table>
-	</div>
-	<div style='margin:2px;margin-top:4px;padding:0px;'><label><input type='checkbox' class='vboxCheckbox' name='vboxImportReinitNetwork' />
-		<span class='translateglob'>Reinitialize the MAC address of all network cards</span></label>
-	</div>
-	
-</div>
 <script type='text/javascript'>
 
-/* Draw button */
-new vboxToolbarSingle({button: {
-	'name' : 'mselecthdbtn',
-	'label' : 'Choose a virtual appliance file to import...',
-	'language_context': 'UIWizardImportApp',
-	'icon' : 'select_file',
-	'click' : function () {
-		wizardImportApplianceBrowseLocation()
-	}
-}}).renderTo('wizardImportApplianceLocationButton');
-
-$('#wizardImportApplianceStep2').find('span.translateglob').html(function(i,h){
+// Translations
+$('#wizardImportApplianceStep1').find('span.translateglob').html(function(i,h){
 	return trans(h,'UIApplianceEditorWidget');
 });
+
+$('#vboxWizardImportApplianceButton').val(trans('Choose a virtual appliance file to import...','UIWizardImportApp'));
 
 /*
  * 
@@ -218,53 +224,43 @@ function wizardImportApplianceBrowseLocation() {
 	var loc = $('#vboxPane').data('vboxSystemProperties').defaultMachineFolder;
 
 	vboxFileBrowser(loc,function(f){
+		
 		if(!f) return;
+		
 		document.forms['frmwizardImportAppliance'].elements.wizardImportApplianceLocation.value = f;
+		$('#vboxWizardImportApplianceFilename').html(f);
+		
+		// Remove any existing VMs from Back / Forward wizard navigation
+		$('#vboxImportProps').children().remove();
+		
+		/* Parse appliance file */
+		var l = new vboxLoader();
+		l.add('applianceReadInterpret',function(d){
+			if(d && d.responseData && d.responseData.descriptions && d.responseData.descriptions.length) { wizardImportApplianceParsed(d.responseData); }
+			else {
+				if(!d) { vboxAlert(trans('Unkown Error')); }
+				document.forms['frmwizardImportAppliance'].elements.wizardImportApplianceLocation.value = '';
+				$('#vboxWizardImportApplianceFilename').html('');
+			} // no data. assume error was displayed
+		},{'file':$(document.forms['frmwizardImportAppliance'].elements.wizardImportApplianceLocation).val()});
+		l.run();
+		
 	},false,trans('Select an appliance to import','UIWizardImportApp'),'images/vbox/os_type_16px.png');
 
 }
 
-/* When going to step2, make sure a file is selected and
- * appliance file was parsed
- */
-$('#wizardImportApplianceStep2').on('show',function(e,wiz){
-
-	if(!$(document.forms['frmwizardImportAppliance'].elements.wizardImportApplianceLocation).val()) {
-		$(document.forms['frmwizardImportAppliance'].elements.wizardImportApplianceLocation).addClass('vboxRequired');
-		wiz.displayStep(1);
-		return;
-	}
-	$(document.forms['frmwizardImportAppliance'].elements.wizardImportApplianceLocation).removeClass('vboxRequired').focus();
-
-	wizardImportAppResize();
-
-	// Remove any existing VMs from Back / Forward wizard navigation
-	$('#vboxImportProps').children().remove();
-	
-	/* Parse appliance file */
-	var l = new vboxLoader();
-	l.add('applianceReadInterpret',function(d){
-		if(d && d.responseData && d.responseData.descriptions && d.responseData.descriptions.length) { wizardImportApplianceParsed(d.responseData); }
-		else if(!d) { vboxAlert(trans('Unkown Error')); wiz.displayStep(1);}
-		else { wiz.displayStep(1); } // no data. assume error was displayed
-	},{'file':$(document.forms['frmwizardImportAppliance'].elements.wizardImportApplianceLocation).val()});
-	l.run();
-	
-});
-
 
 function wizardImportAppResize(){
+	
 	// Resize properties
+	$('#wizardImportApplianceStep1').hide();
+	$('#wizardImportApplianceStep1').css({'height':($('#wizardImportApplianceStep1').parent().height()-8)+'px'}).show();
 	$('#vboxImportPropsContainer').hide();
-	var h = $('#wizardImportApplianceStep2').parent().innerHeight() - $('#wizardImportApplianceTitle').outerHeight(true);
-
-	$('#vboxImportPropsContainer').siblings().each(function(){
-		h -= $(this).outerHeight(true);
-	});
-	$('#vboxImportPropsContainer').width($('#vboxImportPropsContainer').parent().innerWidth()).height(h-4).show();
+	$('#vboxImportPropsContainer').css({'height':($('#vboxImportPropsContainer').parent().height()-2)+'px'}).show();
 	
 }
 $('#wizardImportApplianceDialog').on('dialogresizestop',wizardImportAppResize);
+$('#wizardImportApplianceStep1').on('show',wizardImportAppResize);
 
 /* After appliance file is parsed */
 function wizardImportApplianceParsed(d) {
@@ -276,13 +272,14 @@ function wizardImportApplianceParsed(d) {
 	if(!d) d = {'descriptions':$(tbl).data('descriptions')}; 
 	else $(tbl).data('descriptions',d.descriptions);
 	
+	// No descriptions.. nothing to do..
+	if(!$(tbl).data('descriptions')) return;
 
 	for(var vm = 0; vm < d.descriptions.length; vm++) {
 
 		var tr = $('<tr />').data({'vmDesc':d.descriptions[vm]}).attr({'class':'vboxApplianceHeaderRow'});
 		var td = $('<td />').attr({'colspan':'2','class':'vboxApplianceHeader'});
 		$('<input />').data({'vboxOrder':vm}).attr({'type':'button','class':'vboxImgButton','style':'background-image: url(images/downArrow.png); width: 12px; height: 12px; margin-right: 4px;'}).click(function(){
-			
 			if(!$(this).data('toggleClicked')) {
 				$(this).data('toggleClicked', true);
 				$(this).css({'background-image':'url(images/rightArrow.png)'});

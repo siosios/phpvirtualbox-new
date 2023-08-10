@@ -1,3 +1,13 @@
+<?php
+
+require_once(dirname(__FILE__).'/endpoints/lib/config.php');
+require_once(dirname(__FILE__).'/endpoints/lib/utils.php');
+require_once(dirname(__FILE__).'/endpoints/lib/vboxconnector.php');
+
+// Init session
+global $_SESSION;
+session_init(true);
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" >
 <html xmlns="http://www.w3.org/1999/xhtml">
 <!-- $Id: index.html 595 2015-04-17 09:50:36Z imoore76 $ -->
@@ -316,10 +326,10 @@
 				l.add('vboxGetEnumerationMap',function(d){$('#vboxPane').data('vboxMediumVariants',d.responseData);},{'class':'MediumVariant','ValueMap':1});
 	
 				// Load HTML panes and append them to their respective locations
-				l.addFileToDOM('panes/chooser.html',$('#vboxChooserPane'));
-				l.addFileToDOM('panes/topmenu.html');
-				l.addFileToDOM('panes/toolbar.html');
-				l.addFileToDOM('panes/tabs.html',$('#vboxPaneTabContent'));
+				l.addFileToDOM('panes/chooser.php',$('#vboxChooserPane'));
+				l.addFileToDOM('panes/topmenu.php');
+				l.addFileToDOM('panes/toolbar.php');
+				l.addFileToDOM('panes/tabs.php',$('#vboxPaneTabContent'));
 	
 				l.onLoad = function() {
 	
@@ -389,7 +399,7 @@
 			/** Load login form */
 			var login = new vboxLoader();
 			login.add('getSession',function(d){$('#vboxPane').data('vboxSession',$.extend({'success':d.success},d.responseData));});
-			login.addFileToDOM('panes/login.html');
+			login.addFileToDOM('panes/login.php');
 			login.onLoad = function(loader) {
 
 				var buttons = {};

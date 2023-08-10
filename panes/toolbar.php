@@ -1,4 +1,16 @@
-<!-- 
+<?php
+
+require_once(dirname(__FILE__).'/../endpoints/lib/config.php');
+require_once(dirname(__FILE__).'/../endpoints/lib/utils.php');
+require_once(dirname(__FILE__).'/../endpoints/lib/vboxconnector.php');
+
+// Init session
+global $_SESSION;
+session_init(true);
+
+$is_admin = !!$_SESSION['admin'];
+?>
+<!--
 
 	Top (main) phpVirtualBox tool bar
 	Copyright (C) 2010-2015 Ian Moore (imoore76 at yahoo dot com)
@@ -14,7 +26,7 @@
  */
 var tButtons = [
     
-    vboxVMActions['new'],
+    <?if($is_admin):?>vboxVMActions['new'],<?endif;?>
     $.extend({},vboxVMActions['settings'],{click: function(){
         var vm = vboxChooser.getSingleSelected();
         if(!vm || vboxVMStates.isRunning(vm) || vboxVMStates.isPaused(vm)) return;

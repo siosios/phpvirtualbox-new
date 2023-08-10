@@ -560,7 +560,7 @@ function vboxSettingsGlobalNetworkNatPortForwardingDialog(net, row) {
 		$('#vboxSettingsGlobalNetworkNatPortForwardingDialog').empty().remove();
 	
 	var l = new vboxLoader();
-	l.addFileToDOM("panes/settingsGlobalNetworkNATPortForwarding.html");
+	l.addFileToDOM("panes/settingsGlobalNetworkNATPortForwarding.php");
 	l.onLoad = function(){
 		
 		vboxSettingsGlobalNetworkNatPortForwardingInit(net.portForwardRules4, false);

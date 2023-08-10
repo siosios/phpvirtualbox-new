@@ -1,4 +1,17 @@
-<!-- 
+<?php
+require_once(dirname(__FILE__).'/../endpoints/lib/config.php');
+require_once(dirname(__FILE__).'/../endpoints/lib/utils.php');
+require_once(dirname(__FILE__).'/../endpoints/lib/vboxconnector.php');
+
+// Init session
+global $_SESSION;
+session_init(true);
+
+if (!$_SESSION['admin']) {
+    die("You don't have permissions");
+}
+?>
+<!--
 
 	Advanced panes for clone virtual machine wizard. Logic in vboxWizard()
 	Copyright (C) 2010-2015 Ian Moore (imoore76 at yahoo dot com)

@@ -488,7 +488,7 @@ function vboxRDPDetach() {
 			function vboxConsoleDetachedOnload(){\
 			l = new vboxLoader();\
 			l.add('getConfig',function(d){$('#vboxPane').data('vboxConfig',d.responseData);});\
-			l.addFile('panes/tabVMConsoleRDP.html',function(d){$('#vboxPane').children().remove();$('#vboxPane').append(d);$('#vboxTabVMConsole').css('display','');vboxRDPLoad();});\
+			l.addFile('panes/tabVMConsoleRDP.php',function(d){$('#vboxPane').children().remove();$('#vboxPane').append(d);$('#vboxTabVMConsole').css('display','');vboxRDPLoad();});\
 			l.run();};\
 			setTimeout(\"vboxConsoleCheckLoad()\",1000);";
 	newHead.appendChild(script);
