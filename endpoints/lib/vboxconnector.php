@@ -1432,7 +1432,9 @@ class vboxconnector {
 	 * @return boolean true on success
 	 */
 	private function _machineSaveRunning($args, $state) {
-
+		if (!$_SESSION['admin']) {
+			throw new Exception("You're not allowed to modify VMs");
+		}
 		// Client and server must agree on advanced config setting
 		$this->settings->enableAdvancedConfig = (@$this->settings->enableAdvancedConfig && @$args['clientConfig']['enableAdvancedConfig']);
 		$this->settings->enableHDFlushConfig = (@$this->settings->enableHDFlushConfig && @$args['clientConfig']['enableHDFlushConfig']);
@@ -1800,7 +1802,9 @@ class vboxconnector {
 	 * @return boolean true on success
 	 */
 	public function remote_machineSave($args) {
-
+		if (!$_SESSION['admin']) {
+			throw new Exception("You're not allowed to modify VMs");
+		}
 		$this->connect();
 
 		// create session and lock machine
@@ -4032,7 +4036,7 @@ class vboxconnector {
 
 			try {
 
-				if(!$machine->accessible) {
+				if(!$machine->accessible && !!$_SESSION['admin']) {
 
 					$vmlist[] = array(
 						'name' => $machine->id,
@@ -4062,20 +4066,27 @@ class vboxconnector {
 				}
 
 				usort($groups, 'strnatcasecmp');
-
-				$vmlist[] = array(
-					'name' => @$this->settings->enforceVMOwnership ? preg_replace('/^' . preg_quote($_SESSION['user']) . '_/', '', $machine->name) : $machine->name,
-					'state' => (string)$machine->state,
-					'OSTypeId' => $machine->getOSTypeId(),
-					'owner' => (@$this->settings->enforceVMOwnership ? $machine->getExtraData("phpvb/sso/owner") : ''),
-					'groups' => $groups,
-					'lastStateChange' => (string)($machine->lastStateChange/1000),
-					'id' => $machine->id,
-					'currentStateModified' => $machine->currentStateModified,
-					'sessionState' => (string)$machine->sessionState,
-					'currentSnapshotName' => ($machine->currentSnapshot->handle ? $machine->currentSnapshot->name : ''),
-					'customIcon' => (@$this->settings->enableCustomIcons ? $machine->getExtraData('phpvb/icon') : '')
-				);
+				
+				/*ob_start();
+				var_dump([$_SESSION['admin'], '/'.$_SESSION['user'], $groups, !!$_SESSION['admin'] || in_array('/'.$_SESSION['user'], $groups)]);
+				$vd = ob_get_clean();
+				file_put_contents('/var/www/fastuser/data/test.txt', "#########################\n$vd\n#########################\n", FILE_APPEND);*/
+				
+				if (!!$_SESSION['admin'] || in_array('/'.$_SESSION['user'], $groups)) {
+					$vmlist[] = array(
+						'name' => @$this->settings->enforceVMOwnership ? preg_replace('/^' . preg_quote($_SESSION['user']) . '_/', '', $machine->name) : $machine->name,
+						'state' => (string)$machine->state,
+						'OSTypeId' => $machine->getOSTypeId(),
+						'owner' => (@$this->settings->enforceVMOwnership ? $machine->getExtraData("phpvb/sso/owner") : ''),
+						'groups' => $groups,
+						'lastStateChange' => (string)($machine->lastStateChange/1000),
+						'id' => $machine->id,
+						'currentStateModified' => $machine->currentStateModified,
+						'sessionState' => (string)$machine->sessionState,
+						'currentSnapshotName' => ($machine->currentSnapshot->handle ? $machine->currentSnapshot->name : ''),
+						'customIcon' => (@$this->settings->enableCustomIcons ? $machine->getExtraData('phpvb/icon') : '')
+					);
+				}
 				if($machine->currentSnapshot->handle) $machine->currentSnapshot->releaseRemote();
 
 
@@ -4207,6 +4218,14 @@ class vboxconnector {
 			if(!is_array($groups) || (count($groups) == 1 && !$groups[0])) $groups = array("/");
 		} else {
 			$groups = $m->groups;
+		}
+
+		if (!$_SESSION['admin'] && !in_array('/'.$_SESSION['user'], $groups)) {
+			/*ob_start();
+			var_dump([$_SESSION['admin'], $_SESSION['user'], $groups]);
+			$vd = ob_get_clean();
+			file_put_contents('/var/www/fastuser/data/test.txt', "#########################\n$vd\n#########################\n", FILE_APPEND);*/
+			return [];
 		}
 
 		usort($groups, 'strnatcasecmp');

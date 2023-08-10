@@ -45,6 +45,11 @@ $response = array('data'=>array('responseData'=>array()),'errors'=>array(),'pers
  */
 $vbox = null; // May be set during request handling
 
+/*ob_start();
+var_dump([$_SESSION['admin'], $_SESSION['user']);
+$vd = ob_get_clean();
+file_put_contents('/var/www/fastuser/data/test.txt', "#########################\n$vd\n#########################\n", FILE_APPEND);*/
+
 /**
  * Main try / catch. Logic dictated by incoming 'fn' request
  * parameter.
