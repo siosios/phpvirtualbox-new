@@ -4085,11 +4085,6 @@ class vboxconnector {
 
 				usort($groups, 'strnatcasecmp');
 				
-				/*ob_start();
-				var_dump([$_SESSION['admin'], '/'.$_SESSION['user'], $groups, !!$_SESSION['admin'] || in_array('/'.$_SESSION['user'], $groups)]);
-				$vd = ob_get_clean();
-				file_put_contents('/var/www/fastuser/data/test.txt', "#########################\n$vd\n#########################\n", FILE_APPEND);*/
-				
 				if (!!$_SESSION['admin'] || in_array('/'.$_SESSION['user'], $groups)) {
 					$vmlist[] = array(
 						'name' => @$this->settings->enforceVMOwnership ? preg_replace('/^' . preg_quote($_SESSION['user']) . '_/', '', $machine->name) : $machine->name,
@@ -4239,10 +4234,6 @@ class vboxconnector {
 		}
 
 		if (!$_SESSION['admin'] && !in_array('/'.$_SESSION['user'], $groups)) {
-			/*ob_start();
-			var_dump([$_SESSION['admin'], $_SESSION['user'], $groups]);
-			$vd = ob_get_clean();
-			file_put_contents('/var/www/fastuser/data/test.txt', "#########################\n$vd\n#########################\n", FILE_APPEND);*/
 			return [];
 		}
 
