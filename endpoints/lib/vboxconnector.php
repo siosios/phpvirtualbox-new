@@ -2350,7 +2350,9 @@ class vboxconnector {
 	 * @return boolean true on success
 	 */
 	public function remote_machineAdd($args) {
-
+        if (!$_SESSION['admin']) {
+            throw new Exception("You're not allowed to add VMs");
+        }
 		$this->connect();
 
 
@@ -2548,7 +2550,9 @@ class vboxconnector {
 	 * @return boolean true on success
 	 */
 	public function remote_vboxSystemPropertiesSave($args) {
-
+        if (!$_SESSION['admin']) {
+            throw new Exception("You're not allowed to change system properties");
+        }
 		// Connect to vboxwebsrv
 		$this->connect();
 
@@ -2569,7 +2573,9 @@ class vboxconnector {
 	 * @return array response data
 	 */
 	public function remote_applianceImport($args) {
-
+        if (!$_SESSION['admin']) {
+            throw new Exception("You're not allowed to import appliance");
+        }
 		// Connect to vboxwebsrv
 		$this->connect();
 
@@ -2723,7 +2729,9 @@ class vboxconnector {
 	 * @return array response data
 	 */
 	public function remote_applianceExport($args) {
-
+        if (!$_SESSION['admin']) {
+            throw new Exception("You're not allowed to export appliance");
+        }
 		// Connect to vboxwebsrv
 		$this->connect();
 
@@ -2855,7 +2863,9 @@ class vboxconnector {
 	 * @return array networking info data
 	 */
 	public function remote_vboxNATNetworksSave($args) {
-
+        if (!$_SESSION['admin']) {
+            throw new Exception("You're not allowed to save NAT networks");
+        }
 		$this->connect();
 
 		$props = array('networkName','enabled','network','IPv6Enabled',
@@ -3046,7 +3056,9 @@ class vboxconnector {
 	 * @return boolean true on success
 	 */
 	public function remote_hostOnlyInterfacesSave($args) {
-
+        if (!$_SESSION['admin']) {
+            throw new Exception("You're not allowed to change interfaces");
+        }
 		// Connect to vboxwebsrv
 		$this->connect();
 
@@ -3095,7 +3107,9 @@ class vboxconnector {
 	 * @return array response data
 	 */
 	public function remote_hostOnlyInterfaceCreate($args) {
-
+        if (!$_SESSION['admin']) {
+            throw new Exception("You're not allowed to create interfaces");
+        }
 		// Connect to vboxwebsrv
 		$this->connect();
 
@@ -3128,7 +3142,9 @@ class vboxconnector {
 	 * @return array response data
 	 */
 	public function remote_hostOnlyInterfaceRemove($args) {
-
+        if (!$_SESSION['admin']) {
+            throw new Exception("You're not allowed to remove interfaces");
+        }
 		// Connect to vboxwebsrv
 		$this->connect();
 
@@ -3760,7 +3776,9 @@ class vboxconnector {
 	 * @return boolean true on success
 	 */
 	public function remote_machineCreate($args) {
-
+        if (!$_SESSION['admin']) {
+            throw new Exception("You're not allowed to create VMs");
+        }
 		// Connect to vboxwebsrv
 		$this->connect();
 
