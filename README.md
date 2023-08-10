@@ -33,7 +33,21 @@ Default login is username: admin password: admin
 Please report bugs / feature requests to GitHub
 https://github.com/phpvirtualbox/phpvirtualbox/issues
 
+Please report bugs related to modification here:
+https://github.com/mamayadesu/phpvirtualbox/issues
+
 # Password Recovery
 
 Rename the file recovery.php-disabled to recovery.php, navigate to it in
 your web browser, and follow the instructions presented.
+<hr>
+
+# About modification
+
+## Restriction of access rights
+
+This modification restricts ordinary users access to important VirtualBox functionality, such as: configuring NAT, creating, editing and deleting virtual machines, appliance import/export, creating virtual media
+
+## Differentiation of access rights to virtual machines
+
+In this modification, ordinary users can only see and interact with those virtual machines if they are in a group whose name is equal to the username
