@@ -41,10 +41,10 @@ for(var i = 0; i < vboxVMActions.stop_actions.length; i++) {
 
 // VM List Group context menu
 vboxChooser.setContextMenu('group', [
-	<?if($is_admin):?>vboxVMGroupActions['newmachine'],
+	<?php if($is_admin):?>vboxVMGroupActions['newmachine'],
 	vboxVMGroupActions['addmachine'],
 	$.extend({}, vboxVMGroupActions['rename'], {separator: true}),
-	vboxVMGroupActions['ungroup'],<?endif;?>
+	vboxVMGroupActions['ungroup'],<?php endif;?>
 	$.extend({}, vboxVMActions['start'], {'separator' : true}),
     vboxVMActions['pause'],
     vboxVMActions['reset'],
@@ -61,9 +61,9 @@ vboxChooser.setContextMenu('group', [
  
 vboxChooser.setContextMenu('vm',[
    	vboxVMActions['settings'],
-   	<?if($is_admin):?>vboxVMActions['clone'],
+   	<?php if($is_admin):?>vboxVMActions['clone'],
    	vboxVMActions['remove'],
-   	vboxVMActions['group'],<?endif;?>
+   	vboxVMActions['group'],<?php endif;?>
    	$.extend({},vboxVMActions['start'], {'separator' : true}),
     vboxVMActions['pause'],
     vboxVMActions['reset'],
@@ -80,7 +80,7 @@ sChildren = null;
  * VM list context menu setup
  */
 vboxChooser.setContextMenu('anchor', [
-	<?if($is_admin):?>vboxVMActions['new'],
+	<?php if($is_admin):?>vboxVMActions['new'],
 	vboxVMActions['add'],
 	{
 		'name':'fileImport',
@@ -97,7 +97,7 @@ vboxChooser.setContextMenu('anchor', [
 		'icon':'export',
 		'click':function(){new vboxWizardExportApplianceDialog().run(); }
 	},
-    <?endif;?>
+    <?php endif;?>
 	$.extend({},vboxVMGroupActions['sort'],{'separator':true,click:function(){
 		vboxChooser.sortSelectedGroup(true);
 	}})

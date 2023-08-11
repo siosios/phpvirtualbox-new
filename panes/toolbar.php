@@ -26,7 +26,7 @@ $is_admin = !!$_SESSION['admin'];
  */
 var tButtons = [
     
-    <?if($is_admin):?>vboxVMActions['new'],<?endif;?>
+    <?php if($is_admin):?>vboxVMActions['new'],<?endif;?>
     $.extend({},vboxVMActions['settings'],{click: function(){
         var vm = vboxChooser.getSingleSelected();
         if(!vm || vboxVMStates.isRunning(vm) || vboxVMStates.isPaused(vm)) return;

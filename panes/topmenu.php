@@ -35,7 +35,7 @@ var menu = {
 	'name':'vboxTopFile',
 	'label': 'File',
 	'menu':[
-        <? if($is_admin): ?>
+        <?php if($is_admin): ?>
         {
 			'name':'fileVMM',
 			'label':'Virtual Media Manager...',
@@ -65,7 +65,7 @@ var menu = {
 			'click':function(){vboxGlobalPrefsDialog();},
 			'separator':true
         }
-        <?endif;?>
+        <?php endif;?>
 	]
 };
 
@@ -197,12 +197,12 @@ vboxTopMenuBar.addMenu({
 		return (!chooser || (chooser.selectionMode != vboxSelectionModeSingleGroup));
 	},
 	'menu':[
-	    <?if($is_admin):?>vboxVMActions['new'],
+	    <?php if($is_admin):?>vboxVMActions['new'],
 	    vboxVMActions['add'],
 	    vboxVMActions['settings'],
 	    vboxVMActions['clone'],
 	    vboxVMActions['remove'],
-	    vboxVMActions['group'],<?endif;?>
+	    vboxVMActions['group'],<?php endif;?>
 	    $.extend({},vboxVMActions['start'],{'separator':true}),
 	    vboxVMActions['pause'],
 	    vboxVMActions['reset'],
@@ -221,10 +221,10 @@ vboxTopMenuBar.addMenu({
 		return (chooser && (chooser.selectionMode == vboxSelectionModeSingleGroup));
 	},
 	'menu':[
-    	<?if($is_admin):?>vboxVMGroupActions['newmachine'],
+    	<?php if($is_admin):?>vboxVMGroupActions['newmachine'],
     	vboxVMGroupActions['addmachine'],
     	$.extend({}, vboxVMGroupActions['rename'], {separator:true}),
-    	vboxVMGroupActions['ungroup'],<?endif;?>
+    	vboxVMGroupActions['ungroup'],<?php endif;?>
     	$.extend({},vboxVMActions['start'],{'name':'start','separator' : true}),
         vboxVMActions['pause'],
         vboxVMActions['reset'],
