@@ -35,6 +35,8 @@ error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_WARNING);
 session_init();
 if(!$_SESSION['valid']) return;
 
+if (!$_SESSION['admin']) die("You're not allowed to explore filesystem");
+
 /*
  * Get Settings
  */

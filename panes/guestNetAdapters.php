@@ -7,9 +7,6 @@ require_once(dirname(__FILE__).'/../endpoints/lib/vboxconnector.php');
 global $_SESSION;
 session_init(true);
 
-if (!$_SESSION['admin']) {
-    die("You don't have permissions");
-}
 ?>
 <!--
 
