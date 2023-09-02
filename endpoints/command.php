@@ -73,6 +73,12 @@ $combinations = [
     "ctrl_l" => "1d 26 a6 9d",
     "ctrl_s" => "1d 1f 9f 9d",
 
+    "shift_alt" => "2a 38 b8 aa",
+
+    "win" => "e0 5b e0 db",
+    "win_r" => "e0 5b 13 93 e0 db",
+    "win_l" => "e0 5b 26 a6 e0 db",
+
     "f1" => "3b bb",
     "f2" => "3c bc",
     "f3" => "3d bd",
@@ -84,7 +90,8 @@ $combinations = [
     "f9" => "43 c3",
     "f10" => "44 c4",
     "f11" => "57 d7",
-    "f12" => "58 d8"
+    "f12" => "58 d8",
+    "alt_f4" => "38 3e be b8"
 ];
 
 if (!isset($request['vm'])) {

@@ -136,6 +136,9 @@
         "ctrl_a_d": "Ctrl + A + D",
         "ctrl_l": "Ctrl + L",
         "ctrl_s": "Ctrl + S",
+        "win": "Win",
+        "win_r": "Win + R",
+        "win_l": "Win + L",
         "f1": "F1",
         "f2": "F2",
         "f3": "F3",
@@ -147,7 +150,9 @@
         "f9": "F9",
         "f10": "F10",
         "f11": "F11",
-        "f12": "F12"
+        "f12": "F12",
+        "shift_alt": "Shift + Alt",
+        "alt_f4": "Alt + F4"
     };
 
     var $combinations = $('#vboxConsoleHotkey');
