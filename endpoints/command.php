@@ -148,17 +148,10 @@ foreach ($input_queue as $item) {
         $startwith = substr($item['k'], 0, 1);
         $endwith = substr($item['k'], -1);
 
-        if ($startwith != '"' && !$startwith != "'") {
-            $new_input_queue[] = [
-                't' => 'k',
-                'k' => "'" . $item['k'] . "'"
-            ];
-        } else {
-            $new_input_queue[] = [
-                't' => 'k',
-                'k' => $item['k']
-            ];
-        }
+        $new_input_queue[] = [
+            't' => 'k',
+            'k' => escapeshellarg($item['k'])
+        ];
     } else if ($item['t'] == 'c') {
         if (!isset($combinations[$item['c']])) {
             continue;
@@ -194,7 +187,7 @@ if ($config['use_vboxinputwebserver']) {
     foreach ($new_input_queue as $item) {
         if ($item['t'] == 'k') {
             $final_command = ($config['use_sudo'] ? "sudo " : "") .
-                $config['vboxmanage'] . " controlvm " . $request["vm"] . " keyboardputstring " . escapeshellarg($item['k']);
+                $config['vboxmanage'] . " controlvm " . $request["vm"] . " keyboardputstring " . $item['k'];
 
             exec($final_command, $output);
         } else if ($item['t'] == 'c') {
