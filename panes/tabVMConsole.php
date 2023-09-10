@@ -8,13 +8,20 @@
  -->
 
 <div id='vboxTabVMConsole' class='vboxTabContent' style='display:none;'>
-    <select id="vboxConsoleHotkey">
+    <select id="vboxConsoleHotkey" style="margin-top: 5px;">
         <option value="not_selected">Select hotkey or button</option>
     </select>
-    <button id="vboxConsolePasteFromClipboard">Paste from clipboard</button><br>
-    <img src="" id="vboxVMScreenImg" tabindex="-1" style="background-color: black; min-width: 500px; min-height: 500px;">
+    <button id="vboxConsolePasteFromClipboard" onmouseover="paste_onmouseover();" onmouseleave="paste_onmouseleave();" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text">Paste from clipboard</span></button><br>
+    <img src="" id="vboxVMScreenImg" tabindex="-1" style="margin-top: 20px; background-color: black; min-width: 500px; min-height: 500px;">
 </div>
 <script type="text/javascript">
+function paste_onmouseover() {
+    document.getElementById('vboxConsolePasteFromClipboard').className = "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only ui-state-hover";
+}
+
+function paste_onmouseleave() {
+    document.getElementById('vboxConsolePasteFromClipboard').className = "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only";
+}
 (function() {
 
     var b64decode = function(data)
@@ -81,18 +88,41 @@
         if (document.getElementById('vboxTabVMConsole').style.display == 'none') {
             return;
         }
+        img_loading = true;
         var rand = Math.floor((new Date()).getTime());
         img.src = vboxEndpointConfig.screen + "?width=900&randid="+rand+"&vm="+vmid;
     }
     var vmid = null;
     var prev_vmid = null;
     var img = document.getElementById('vboxVMScreenImg');
+    var img_loading = false;
+    var img_update_int = 0;
+    img.onload = function(e) {
+        img_loading = false;
+    };
 
     var input_queue = [];
+    var img_update_interval = null;
 
-    setInterval(function() {
-        updateImage(vmid);
-    }, 500);
+    var renew_interval = function() {
+        if (img_update_interval != null) {
+            clearInterval(img_update_interval);
+        }
+        img_update_int += 500;
+        img_update_interval = setInterval(function() {
+            if (document.getElementById('vboxTabVMConsole').style.display == 'none') {
+                img_loading = false;
+                return;
+            }
+            if (img_loading) {
+                console.warn("Image didn't manage to renew in time. Skipping this iteration.");
+                return;
+            }
+            updateImage(vmid);
+        }, img_update_int);
+    };
+
+    renew_interval();
 
     setInterval(function() {
         prev_vmid = vmid;
@@ -102,7 +132,7 @@
             updateImage(vmid);
         }
 
-        if (vmid != null) {
+        if (vmid != null && vmid != 'host') {
             $('#vboxTabVMConsole').parent().trigger('enableTab',['vboxTabVMConsole']);
         } else {
             $('#vboxTabVMConsole').parent().trigger('disableTab',['vboxTabVMConsole']);
