@@ -5,3 +5,6 @@
 /phpinfo.php
 /.vscode
 /.idea
+/config.php-example
+/VBoxInputServer Sources
+/VBoxInputServer.phar

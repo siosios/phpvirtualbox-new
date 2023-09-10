@@ -5,30 +5,27 @@
  * @package phpVirtualBox
  */
 
-/*
- * CONFIGURATION
- */
+require_once(dirname(__FILE__).'/../config.php');
 
-$config = [
-    'vboxmanage' => 'VBoxManage',
-    'use_vboxinputwebserver' => true,
-    'use_sudo' => true // Is not using if 'use_vboxinputwebserver' enabled
-];
+$config = new phpVBoxConfig();
 
-/*
- * Attention! If you enabled the `use_vboxinputwebserver` option,
- * you need to run VBoxInputServer on the hypervisor via PHP-CLI. Minimum supported PHP version is 7.4
- */
+if (!isset($config->vboxmanage)) {
+    echo "`vboxmanage` parameter not found in config.php";
+    exit;
+}
 
-/*
- * Attention! You also need to add 'www-data' to sudoers!
- */
+if (!isset($config->use_sudo)) {
+    echo "`use_sudo` parameter not found in config.php";
+    exit;
+}
 
-###################################
+if (!isset($config->use_vboxinputwebserver)) {
+    echo "`use_vboxinputwebserver` parameter not found in config.php";
+    exit;
+}
 
 # Turn off PHP notices
-//error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_WARNING);
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_WARNING);
 
 require_once(dirname(__FILE__).'/lib/config.php');
 require_once(dirname(__FILE__).'/lib/utils.php');
@@ -163,10 +160,10 @@ foreach ($input_queue as $item) {
     }
 }
 
-if ($config['use_vboxinputwebserver']) {
+if ($config->use_vboxinputwebserver) {
     $postdata = http_build_query(
         array(
-            'vboxmanage' => $config['vboxmanage'],
+            'vboxmanage' => $config->vboxmanage,
             'vm' => $request['vm'],
             'input_queue' => base64_encode(json_encode($new_input_queue))
         )
@@ -186,13 +183,13 @@ if ($config['use_vboxinputwebserver']) {
 } else {
     foreach ($new_input_queue as $item) {
         if ($item['t'] == 'k') {
-            $final_command = ($config['use_sudo'] ? "sudo " : "") .
-                $config['vboxmanage'] . " controlvm " . $request["vm"] . " keyboardputstring " . $item['k'];
+            $final_command = ($config->use_sudo ? "sudo " : "") .
+                $config->vboxmanage . " controlvm " . $request["vm"] . " keyboardputstring " . $item['k'];
 
             exec($final_command, $output);
         } else if ($item['t'] == 'c') {
-            $final_command = ($config['use_sudo'] ? "sudo " : "") .
-                $config['vboxmanage'] . " controlvm " . $request["vm"] . " keyboardputscancode " . $item['c'];
+            $final_command = ($config->use_sudo ? "sudo " : "") .
+                $config->vboxmanage . " controlvm " . $request["vm"] . " keyboardputscancode " . $item['c'];
 
             exec($final_command, $output);
         }

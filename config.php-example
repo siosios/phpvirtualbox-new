@@ -8,6 +8,26 @@
  */
 class phpVBoxConfig {
 
+/* ## THE NEXT SETTINGS BELOW ARE FOR CONSOLE, MODIFIED BY Semyon Bayandin ## */
+
+    /* VBoxManage path. It also could be `/usr/lib/virtualbox/VBoxManage` */
+    var $vboxmanage = 'VBoxManage';
+
+    /* If direct input doesn't work, you can use VBoxInputWebServer. */
+    /* The compiled application could be found in root of repository. It's called 'VBoxInputWebServer.phar' */
+    /* This application should be running as root/administrator in CLI-mode. Minimal supported version of application is PHP 7.4. You can use Docker container or Screen session and run it there */
+    /* If parameter below is disabled, the direct input will be used instead. If direct input isn't working and you can't input in console anything,
+       you should run 'VBoxInputWebServer.phar' in CLI-mode and enable this parameter */
+    var $use_vboxinputwebserver = false;
+
+    /* It can be enabled if you're using direct input and `$usr_vboxinputwebserver` is disabled */
+    /* This parameters will make the console to make input as root if direct input still doesn't work */
+    /* If this parameters doesn't help at all, you should use 'VBoxInputServer' */
+    /* Attention! You also need to add 'www-data' to sudoers! */
+    var $use_sudo = true;
+
+/* ## THE END OF SETTINGS FOR MODIFIED CONSOLE ## */
+
 /* Username / Password for system user that runs VirtualBox */
 var $username = 'vbox';
 var $password = 'pass';
