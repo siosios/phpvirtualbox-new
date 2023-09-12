@@ -90,7 +90,7 @@ function paste_onmouseleave() {
         }
         img_loading = true;
         var rand = Math.floor((new Date()).getTime());
-        img.src = vboxEndpointConfig.screen + "?width=900&randid="+rand+"&full=1&vm="+vmid;
+        img.src = vboxEndpointConfig.screen + "?randid="+rand+"&full=1&vm="+vmid;
     }
     var vmid = null;
     var prev_vmid = null;
