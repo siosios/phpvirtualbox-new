@@ -12,7 +12,7 @@
         <option value="not_selected">Select hotkey or button</option>
     </select>
     <button id="vboxConsolePasteFromClipboard" onmouseover="paste_onmouseover();" onmouseleave="paste_onmouseleave();" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text">Paste from clipboard</span></button><br>
-    <img src="" id="vboxVMScreenImg" tabindex="-1" style="margin-top: 5px; background-color: black; min-width: 500px; min-height: 500px;">
+    <img src="" id="vboxVMScreenImg" tabindex="-1" style="margin-top: 5px; background-color: black; min-width: 500px; min-height: 500px; max-height: 1024px;">
 </div>
 <script type="text/javascript">
 function paste_onmouseover() {

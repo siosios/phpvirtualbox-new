@@ -112,7 +112,7 @@ if (!$_SESSION['admin'] && !in_array('/'.$_SESSION['user'], $groups)) {
 }
 
 if (!in_array($machine->state->__toString(), ['Running'])) {
-    die("Current VM state: " . $machine->state->__toString() . " (remove this line later)");
+    exit;
 }
 
 $input_queue = @json_decode(urldecode(base64_decode($request['input_queue'])), true);
