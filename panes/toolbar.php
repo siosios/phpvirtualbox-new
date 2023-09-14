@@ -133,7 +133,7 @@ for(var i in vboxChooserSettingsMenu) {
 $('#vboxPane').append(ul);
 
 
-
+<?php if ($is_admin): ?>
 /* 'Settings' button menu initialization  */
 vboxChooserToolbarTop.getButtonElement('settings').contextMenu({
 		menu: 'vboxVMSettingsMenu',
@@ -188,6 +188,8 @@ vboxChooserToolbarTop.getButtonElement('settings').contextMenu({
 		
 	}
 );
+
+<?php endif;?>
 
 /*
  * Storage mount menu
@@ -323,9 +325,9 @@ function vboxChooserToolbarUSBUpdate(menu) {
 function vboxUpdateSettingsMenu(vm) {
 
 	if(vboxVMStates.isRunning(vm) || vboxVMStates.isPaused(vm)) {
-		vboxChooserToolbarTop.getButtonElement("settings").enableContextMenu();
+		<?php if ($is_admin): ?>vboxChooserToolbarTop.getButtonElement("settings").enableContextMenu();<?php endif; ?>
 	} else {
-		vboxChooserToolbarTop.getButtonElement("settings").disableContextMenu();
+        <?php if ($is_admin): ?>vboxChooserToolbarTop.getButtonElement("settings").disableContextMenu();<?php endif; ?>
 		return;
 	}
 	// enable or disable USB
