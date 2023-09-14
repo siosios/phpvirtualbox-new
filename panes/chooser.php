@@ -60,8 +60,8 @@ vboxChooser.setContextMenu('group', [
  */
  
 vboxChooser.setContextMenu('vm',[
-   	vboxVMActions['settings'],
-   	<?php if($is_admin):?>vboxVMActions['clone'],
+    <?php if($is_admin):?>vboxVMActions['settings'],
+   	vboxVMActions['clone'],
    	vboxVMActions['remove'],
    	vboxVMActions['group'],<?php endif;?>
    	$.extend({},vboxVMActions['start'], {'separator' : true}),

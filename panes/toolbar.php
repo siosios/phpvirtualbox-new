@@ -26,13 +26,13 @@ $is_admin = !!$_SESSION['admin'];
  */
 var tButtons = [
     
-    <?php if($is_admin):?>vboxVMActions['new'],<?php endif;?>
+    <?php if($is_admin):?>vboxVMActions['new'],
     $.extend({},vboxVMActions['settings'],{click: function(){
         var vm = vboxChooser.getSingleSelected();
         if(!vm || vboxVMStates.isRunning(vm) || vboxVMStates.isPaused(vm)) return;
         vboxVMActions['settings'].click();
         
-    }}),
+    }}),<?php endif;?>
     vboxVMActions['start'],
     {
         name: 'stop',

@@ -5391,7 +5391,9 @@ class vboxconnector {
 	 * @return boolean true on success
 	 */
 	public function remote_mediumMount($args) {
-
+        if (!$_SESSION['admin']) {
+            throw new Exception("You're not allowed to mount media");
+        }
 		// Connect to vboxwebsrv
 		$this->connect();
 
