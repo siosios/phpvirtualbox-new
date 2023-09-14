@@ -110,7 +110,7 @@ function paste_onmouseleave() {
         }
         img_update_int += 500;
         img_update_interval = setInterval(function() {
-            if (document.getElementById('vboxTabVMConsole').style.display == 'none') {
+            if (document.getElementById('vboxTabVMConsole').style.display == 'none' || document.hidden) {
                 img_loading = false;
                 return;
             }

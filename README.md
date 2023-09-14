@@ -51,3 +51,7 @@ This modification restricts ordinary users access to important VirtualBox functi
 ## Differentiation of access rights to virtual machines
 
 In this modification, ordinary users can only see and interact with those virtual machines if they are in a group whose name is equal to the username
+
+## Modified console
+
+This modification has a different console that works via the HTTP protocol. The console has two input modes: direct and via "VBoxInputServer" (can be found in the root of the repository). It is recommended to use direct input. However, if this doesn't work, use input via VBoxInputServer. Please note that `config.php` in this modification has additional settings. They are set at the very beginning of `config.php`
