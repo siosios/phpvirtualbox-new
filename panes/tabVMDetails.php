@@ -1,4 +1,17 @@
-<!-- 
+<?php
+// 574
+
+
+require_once(dirname(__FILE__) . '/../endpoints/lib/config.php');
+require_once(dirname(__FILE__) . '/../endpoints/lib/utils.php');
+require_once(dirname(__FILE__) . '/../endpoints/lib/vboxconnector.php');
+
+// Init session
+global $_SESSION;
+session_init(true);
+
+?>
+<!--
 
 	VM Details Pane
 	Copyright (C) 2010-2015 Ian Moore (imoore76 at yahoo dot com)
@@ -201,9 +214,11 @@ $('#vboxPane').on('vmSelectionListChanged',function(){
 					break;
 			
 				// Check for specific section redraws or events
+
+                var is_vbox_admin = <?php echo ($_SESSION['admin'] ? 'true' : 'false'); ?>;
 				for(var s in vboxVMDetailsSections) {
 					
-					if(typeof(s) != 'string') continue;
+					if(typeof(s) != 'string' || (!is_vbox_admin && !vboxVMDetailsSections[s].enabledForUser)) continue;
 					if(multiSelect && !vboxVMDetailsSections[s].multiSelectDetailsTable) continue;
 					
 					// Redraw this section?
@@ -570,9 +585,14 @@ function __vboxDisplayDetailsData(data, multiSelect, targetDiv, skipTable) {
 	
 	// Not shown if multiple vms are selected
 	if(multiSelect) return;
+
+    var is_vbox_admin = <?php echo ($_SESSION['admin'] ? 'true' : 'false'); ?>;
 	
 	for(var s in vboxVMDetailsSections) {
-		
+
+        if (!is_vbox_admin && !vboxVMDetailsSections[s].enabledForUser) {
+            continue;
+        }
 		if(vboxVMDetailsSections[s].multiSelectDetailsTable) continue;
 		
 		if(vboxVMDetailsSections[s].condition && !vboxVMDetailsSections[s].condition(data))
@@ -678,10 +698,11 @@ function __vboxDetailsSectionCollapse(e) {
 var ul = $('<ul />')
 	.attr({'class':'contextMenu contextMenuNoBG','style':'display: none','id':'vboxDetailsShowMenu'})
 	.on('contextmenu', function() { return false; });
-	
+
+var is_vbox_admin = <?php echo ($_SESSION['admin'] ? 'true' : 'false'); ?>;
 for(var i in vboxVMDetailsSections) {
 
-	if(typeof(i) != 'string') continue;
+	if(typeof(i) != 'string' || (!is_vbox_admin && !vboxVMDetailsSections[i].enabledForUser)) continue;
 	
 	// Skip if we shouldn't display
 	if(vboxVMDetailsSections[i].condition && !vboxVMDetailsSections[i].condition())
