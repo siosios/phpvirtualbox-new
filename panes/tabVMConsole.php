@@ -131,8 +131,20 @@ function paste_onmouseleave() {
         if (vmid != prev_vmid && vmid != null) {
             updateImage(vmid);
         }
+        var selectedVms = vboxChooser.getSelectedVMsData();
+        var selectedVm;
+        if (typeof selectedVms[0] == 'undefined') {
+            selectedVm = null;
+        } else {
+            selectedVm = selectedVms[0];
+        }
 
-        if (vmid != null && vmid != 'host') {
+        if (selectedVms.length > 1) {
+            $('#vboxTabVMConsole').parent().trigger('disableTab',['vboxTabVMConsole']);
+            return;
+        }
+
+        if (vmid != null && vmid != 'host' && selectedVm.state == 'Running') {
             $('#vboxTabVMConsole').parent().trigger('enableTab',['vboxTabVMConsole']);
         } else {
             $('#vboxTabVMConsole').parent().trigger('disableTab',['vboxTabVMConsole']);
