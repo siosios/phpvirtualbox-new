@@ -3247,6 +3247,25 @@ class vboxconnector {
 			throw new Exception("Not authorized to change state of this VM");
 		}
 
+        if($this->settings->phpVboxGroups) {
+            $groups = explode(',',$machine->getExtraData(vboxconnector::phpVboxGroupKey));
+            if(!is_array($groups) || (count($groups) == 1 && !$groups[0])) $groups = array("/");
+        } else {
+            $groups = $machine->groups;
+        }
+
+        $vmname = $machine->name;
+
+        if (!$_SESSION['admin'] && !in_array('/'.$_SESSION['user'], $groups)) {
+            throw new Exception("You're not allowed to run this VM");
+        }
+
+        $suspended_prefix = ' (suspended)';
+        
+        if (strlen($vmname) > strlen($suspended_prefix) && substr(strtolower($vmname), -strlen($suspended_prefix)) == $suspended_prefix && !$_SESSION['admin']) {
+            throw new Exception("Virtual server is suspended!");
+        }
+
 		// If state has an expected result, check
 		// that we are not already in it
 		if($states[$state]['result']) {
@@ -3358,7 +3377,6 @@ class vboxconnector {
 
 		}
 
-		$vmname = $machine->name;
 		$machine->releaseRemote();
 
 		// Check for ACPI button
@@ -4622,6 +4640,16 @@ class vboxconnector {
 
 		// Connect to vboxwebsrv
 		$this->connect();
+        /* @var $machine IMachine */
+        $machine = $this->vbox->findMachine($args['vm']);
+
+        $vmname = $machine->name;
+
+        $suspended_prefix = ' (suspended)';
+
+        if (strlen($vmname) > strlen($suspended_prefix) && substr(strtolower($vmname), -strlen($suspended_prefix)) == $suspended_prefix && !$_SESSION['admin']) {
+            throw new Exception("Virtual server is suspended!");
+        }
 
 		$progress = $this->session = null;
 
@@ -4630,8 +4658,7 @@ class vboxconnector {
 			// Open session to machine
 			$this->session = $this->websessionManager->getSessionObject($this->vbox->handle);
 
-			/* @var $machine IMachine */
-			$machine = $this->vbox->findMachine($args['vm']);
+
 			$machine->lockMachine($this->session->handle, 'Write');
 
 			/* @var $snapshot ISnapshot */
@@ -4679,6 +4706,17 @@ class vboxconnector {
 		// Connect to vboxwebsrv
 		$this->connect();
 
+        /* @var $machine IMachine */
+        $machine = $this->vbox->findMachine($args['vm']);
+
+        $vmname = $machine->name;
+
+        $suspended_prefix = ' (suspended)';
+
+        if (strlen($vmname) > strlen($suspended_prefix) && substr(strtolower($vmname), -strlen($suspended_prefix)) == $suspended_prefix && !$_SESSION['admin']) {
+            throw new Exception("Virtual server is suspended!");
+        }
+
 		$progress = $this->session = null;
 
 		try {
@@ -4686,8 +4724,6 @@ class vboxconnector {
 			// Open session to machine
 			$this->session = $this->websessionManager->getSessionObject($this->vbox->handle);
 
-			/* @var $machine IMachine */
-			$machine = $this->vbox->findMachine($args['vm']);
 			$machine->lockMachine($this->session->handle, 'Shared');
 
 			/* @var $progress IProgress */
@@ -4735,6 +4771,14 @@ class vboxconnector {
 
 		/* @var $machine IMachine */
 		$machine = $this->vbox->findMachine($args['vm']);
+
+        $vmname = $machine->name;
+
+        $suspended_prefix = ' (suspended)';
+
+        if (strlen($vmname) > strlen($suspended_prefix) && substr(strtolower($vmname), -strlen($suspended_prefix)) == $suspended_prefix && !$_SESSION['admin']) {
+            throw new Exception("Virtual server is suspended!");
+        }
 
 		$progress = $this->session = null;
 
