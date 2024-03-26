@@ -8,7 +8,7 @@
  -->
 
 <div id='vboxTabVMConsole' class='vboxTabContent' style='display:none;'>
-    <p id="UIVMConsoleWarning" style="font-weight: bold;"></p>
+    <p id="UIVMConsoleWarning" style="font-weight: bold; width: 60%;"></p>
     <select id="vboxConsoleHotkey" style="margin-top: 5px;">
         <option value="not_selected" id="UIVMConsoleSelect">Select hotkey or button</option>
     </select>
