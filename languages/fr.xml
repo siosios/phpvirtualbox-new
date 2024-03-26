@@ -40,6 +40,27 @@
 		</message>
 	</context>
 	<context>
+		<name>UIVMConsoleSelect</name>
+		<message>
+			<source>Select hotkey or button</source>
+			<translation>Sélectionnez un raccourci clavier ou un bouton</translation>
+		</message>
+	</context>
+	<context>
+		<name>UIVMConsolePaste</name>
+		<message>
+			<source>Direct paste</source>
+			<translation>Coller directement</translation>
+		</message>
+	</context>
+	<context>
+		<name>UIVMConsoleWarning</name>
+		<message>
+			<source>An emergency console is needed to quickly restore the operation of a virtual server in the event of a malfunction of the virtual server or incorrect network settings that do not allow connecting to it remotely. For added security, do not use this console as your primary method of server management.</source>
+			<translation>Une console d'urgence est nécessaire pour restaurer rapidement le fonctionnement d'un serveur virtuel en cas de dysfonctionnement du serveur virtuel ou de paramètres réseau incorrects ne permettant pas de s'y connecter à distance. Pour plus de sécurité, n'utilisez pas cette console comme méthode principale de gestion de serveur.</translation>
+		</message>
+	</context>
+	<context>
 		<name>VBoxSelectorWnd</name>
 		<message>
 			<source>Change Password</source>

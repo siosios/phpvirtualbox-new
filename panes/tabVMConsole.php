@@ -8,10 +8,11 @@
  -->
 
 <div id='vboxTabVMConsole' class='vboxTabContent' style='display:none;'>
+    <p id="UIVMConsoleWarning" style="font-weight: bold;"></p>
     <select id="vboxConsoleHotkey" style="margin-top: 5px;">
-        <option value="not_selected">Select hotkey or button</option>
+        <option value="not_selected" id="UIVMConsoleSelect">Select hotkey or button</option>
     </select>
-    <button id="vboxConsolePasteFromClipboard" onmouseover="paste_onmouseover();" onmouseleave="paste_onmouseleave();" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text">Paste from clipboard</span></button><br>
+    <button id="vboxConsolePasteFromClipboard" onmouseover="paste_onmouseover();" onmouseleave="paste_onmouseleave();" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"><span class="ui-button-text" id="UIVMConsolePaste">Direct paste</span></button><br>
     <img src="" id="vboxVMScreenImg" tabindex="-1" style="margin-top: 5px; background-color: black; min-width: 500px; min-height: 500px; max-height: 1024px;">
 </div>
 <script type="text/javascript">
@@ -92,6 +93,11 @@ function paste_onmouseleave() {
         var rand = Math.floor((new Date()).getTime());
         img.src = vboxEndpointConfig.screen + "?randid="+rand+"&full=1&vm="+vmid;
     }
+
+    document.getElementById('UIVMConsoleSelect').innerHTML = trans('Select hotkey or button','UIVMConsoleSelect');
+    document.getElementById('UIVMConsolePaste').innerHTML = trans('Direct paste','UIVMConsolePaste');
+    document.getElementById('UIVMConsoleWarning').innerHTML = trans('An emergency console is needed to quickly restore the operation of a virtual server in the event of a malfunction of the virtual server or incorrect network settings that do not allow connecting to it remotely. For added security, do not use this console as your primary method of server management.', 'UIVMConsoleWarning');
+
     var vmid = null;
     var prev_vmid = null;
     var img = document.getElementById('vboxVMScreenImg');
@@ -225,7 +231,7 @@ function paste_onmouseleave() {
     });
 
     $('#vboxConsolePasteFromClipboard').on('click', function() {
-        var paste = prompt('Paste from clipboard');
+        var paste = prompt(trans('Direct paste','UIVMConsolePaste'));
 
         if (!paste || paste == '') {
             return;
