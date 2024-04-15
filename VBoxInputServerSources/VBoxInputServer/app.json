@@ -1,9 +1,0 @@
-{
-    "php_version": "7.4",
-    "app_name": "VBoxInputServer",
-    "app_version": "1.0",
-    "app_author": "xRef",
-    "app_description": "",
-    "namespaces": [],
-    "framework_version": "1.17.0.0"
-}

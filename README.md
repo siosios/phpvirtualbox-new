@@ -1,3 +1,5 @@
+
+
 # About
 
 phpVirtualBox is from 2017 maintained by Smart Guide Pty Ltd (tudor at smartguide dot com dot au)
@@ -53,11 +55,19 @@ This modification restricts ordinary users access to important VirtualBox functi
 In this modification, ordinary users can only see and interact with those virtual machines if they are in a group whose name is equal to the username
 
 How admin sees it:
-![User 'admin'](./repo_images_(can_be_deleted)/admin.png)
+![User 'admin'](https://raw.githubusercontent.com/mamayadesu/things/main/phpvirtualbox/screenshots/admin.png)
 
 And how user 'xref' sees it:
-![User 'xref'](./repo_images_(can_be_deleted)/user.png)
+![User 'xref'](https://raw.githubusercontent.com/mamayadesu/things/main/phpvirtualbox/screenshots/user.png)
 
 ## Modified console
 
-This modification has a different console that works via the HTTP protocol. The console has two input modes: direct and via "VBoxInputServer" (can be found in the root of the repository). It is recommended to use direct input. However, if this doesn't work, use input via VBoxInputServer. Please note that `config.php` in this modification has additional settings. They are set at the very beginning of `config.php`
+This modification has a different console that works via the HTTP protocol. The console has two input modes: direct and via "VBoxInputServer" (https://github.com/mamayadesu/VBoxInputServer/tree/main). It is recommended to use direct input. However, if direct input doesn't work, use should use input via VBoxInputServer. Please note that `config.php` in this modification has additional settings. They are set at the very beginning of `config.php`
+
+![User 'xref'](https://raw.githubusercontent.com/mamayadesu/things/main/phpvirtualbox/screenshots/user1.png)
+
+![User 'xref'](https://raw.githubusercontent.com/mamayadesu/things/main/phpvirtualbox/screenshots/user2.png)
+
+![User 'xref'](https://raw.githubusercontent.com/mamayadesu/things/main/phpvirtualbox/screenshots/user3.png)
+
+![User 'xref'](https://raw.githubusercontent.com/mamayadesu/things/main/phpvirtualbox/screenshots/user4.png)
