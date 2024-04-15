@@ -52,6 +52,17 @@
 			<source>Direct paste</source>
 			<translation>Colar direto</translation>
 		</message>
+		<message>
+			<source>Paste as password</source>
+			<translation>Colar como senha</translation>
+		</message>
+	</context>
+	<context>
+		<name>UIVMCtrlAltDelWarning</name>
+		<message>
+			<source>The Ctrl+Alt+Del key combination on server operating systems Ubuntu, Debian and others reboots the operating system. Do you want to continue?</source>
+			<translation>A combinação de teclas Ctrl+Alt+Del nos sistemas operacionais de servidor Ubuntu, Debian e outros reinicia o sistema operacional. Você quer continuar?</translation>
+		</message>
 	</context>
 	<context>
 		<name>UIVMConsoleWarning</name>

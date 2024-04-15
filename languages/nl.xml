@@ -52,6 +52,17 @@
 			<source>Direct paste</source>
 			<translation>Direct plakken</translation>
 		</message>
+		<message>
+			<source>Paste as password</source>
+			<translation>Plakken als wachtwoord</translation>
+		</message>
+	</context>
+	<context>
+		<name>UIVMCtrlAltDelWarning</name>
+		<message>
+			<source>The Ctrl+Alt+Del key combination on server operating systems Ubuntu, Debian and others reboots the operating system. Do you want to continue?</source>
+			<translation>De toetsencombinatie Ctrl+Alt+Del op serverbesturingssystemen Ubuntu, Debian en anderen start het besturingssysteem opnieuw op. Wil je doorgaan?</translation>
+		</message>
 	</context>
 	<context>
 		<name>UIVMConsoleWarning</name>

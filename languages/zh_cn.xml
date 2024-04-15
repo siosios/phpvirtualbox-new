@@ -52,6 +52,17 @@
 			<source>Direct paste</source>
 			<translation>直接粘贴</translation>
 		</message>
+		<message>
+			<source>Paste as password</source>
+			<translation>粘贴为密码</translation>
+		</message>
+	</context>
+	<context>
+		<name>UIVMCtrlAltDelWarning</name>
+		<message>
+			<source>The Ctrl+Alt+Del key combination on server operating systems Ubuntu, Debian and others reboots the operating system. Do you want to continue?</source>
+			<translation>Ubuntu、Debian 等服务器操作系统上的 Ctrl+Alt+Del 组合键可重新启动操作系统。 你想继续吗？</translation>
+		</message>
 	</context>
 	<context>
 		<name>UIVMConsoleWarning</name>

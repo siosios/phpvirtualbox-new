@@ -16,6 +16,9 @@
     <img src="" id="vboxVMScreenImg" tabindex="-1" style="margin-top: 5px; background-color: black; min-width: 500px; min-height: 500px; max-height: 1024px;">
 </div>
 <script type="text/javascript">
+
+const linux_operating_systems = ["Linux22","Linux24","Linux24_64","Linux26","Linux26_64","ArchLinux","ArchLinux_64","Debian","Debian_64","Fedora","Fedora_64","Gentoo","Gentoo_64","Mandriva","Mandriva_64","Oracle","Oracle_64","RedHat","RedHat_64","OpenSUSE","OpenSUSE_64","Turbolinux","Turbolinux_64","Ubuntu","Ubuntu_64","Xandros","Xandros_64","Linux","Linux_64"];
+
 function paste_onmouseover() {
     document.getElementById('vboxConsolePasteFromClipboard').className = "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only ui-state-hover";
 }
@@ -92,7 +95,7 @@ function paste_onmouseleave() {
         img_loading = true;
         var rand = Math.floor((new Date()).getTime());
         img.src = vboxEndpointConfig.screen + "?randid="+rand+"&full=1&vm="+vmid;
-    }
+    };
 
     document.getElementById('UIVMConsoleSelect').innerHTML = trans('Select hotkey or button','UIVMConsoleSelect');
     document.getElementById('UIVMConsolePaste').innerHTML = trans('Direct paste','UIVMConsolePaste');
@@ -220,6 +223,29 @@ function paste_onmouseleave() {
             return;
         }
 
+        if (comb_id == 'ctrl_alt_del' && linux_operating_systems.indexOf(vboxChooser.getSingleSelected().OSTypeId) != -1) {
+            $combinations.val('not_selected');
+
+            var l = new vboxLoader();
+            l.addFileToDOM('panes/ctrlAltDelWarning.php');
+            l.onLoad = function() {
+                var buttons = {};
+                buttons[trans('OK','QIMessageBox')] = function() {
+                    input_queue.push({
+                        t: 'c',
+                        c: 'ctrl_alt_del'
+                    });
+                    $(this).remove();
+                };
+                buttons[trans('Cancel','QIMessageBox')] = function(){
+                    $(this).remove();
+                };
+                $('#vboxCtrlAltDelWarning').dialog({'closeOnEscape':false,'width':350,'height':200,'buttons':buttons,'modal':true,'autoOpen':true,'dialogClass':'vboxDialogContent','title':'<img src="images/vbox/vm_reset_16px.png" class="vboxDialogTitleIcon" /> Ctrl + Alt + Del'});
+            };
+            l.run();
+            return;
+        }
+
         input_queue.push({
             t: 'c',
             c: comb_id
@@ -231,26 +257,40 @@ function paste_onmouseleave() {
     });
 
     $('#vboxConsolePasteFromClipboard').on('click', function() {
-        var paste = prompt(trans('Direct paste','UIVMConsolePaste'));
+        var l = new vboxLoader();
+        l.addFileToDOM("panes/tabVMConsoleDirectPaste.php");
+        l.onLoad = function() {
+            var buttons = {};
+            buttons[trans('OK','QIMessageBox')] = function() {
+                var paste = $('#vboxDirectPasteInput').val();
+                if (!paste || paste == '') {
+                    $(this).remove();
+                    return;
+                }
 
-        if (!paste || paste == '') {
-            return;
-        }
-        if (input_queue.length > 0 && input_queue[input_queue.length - 1].t == 'k') {
-            input_queue[input_queue.length - 1].k += paste;
-        } else {
-            input_queue.push({
-                t: 'k',
-                k: paste
-            });
-        }
-        setTimeout(function() {
-            document.getElementById("vboxVMScreenImg").focus();
-        }, 10);
+                if (input_queue.length > 0 && input_queue[input_queue.length - 1].t == 'k') {
+                    input_queue[input_queue.length - 1].k += paste;
+                } else {
+                    input_queue.push({
+                        t: 'k',
+                        k: paste
+                    });
+                }
+                $(this).remove();
+            };
+            buttons[trans('Cancel','QIMessageBox')] = function(){
+                $(this).remove();
+            };
+            $('#vboxTabVMConsoleDirectPaste').dialog({'closeOnEscape':false,'width':350,'height':200,'buttons':buttons,'modal':true,'autoOpen':true,'dialogClass':'vboxDialogContent','title':'<img src="images/vbox/expanding_collapsing_16px.png" class="vboxDialogTitleIcon" /> '+trans('Direct paste','UIVMConsolePaste')});
+        };
+        l.run();
     });
 
     document.body.onkeypress = function(e) {
         if (document.getElementById('vboxTabVMConsole').style.display == 'none') {
+            return;
+        }
+        if (!!$('#vboxTabVMConsoleDirectPaste').length) {
             return;
         }
         e.preventDefault();
@@ -273,7 +313,9 @@ function paste_onmouseleave() {
         if (document.getElementById('vboxTabVMConsole').style.display == 'none') {
             return;
         }
-
+        if (!!$('#vboxTabVMConsoleDirectPaste').length) {
+            return;
+        }
         var id = e.which;
         if (!(id in keys)) {
             return;

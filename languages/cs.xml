@@ -52,6 +52,17 @@
 			<source>Direct paste</source>
 			<translation>Přímá pasta</translation>
 		</message>
+		<message>
+			<source>Paste as password</source>
+			<translation>Vložit jako heslo</translation>
+		</message>
+	</context>
+	<context>
+		<name>UIVMCtrlAltDelWarning</name>
+		<message>
+			<source>The Ctrl+Alt+Del key combination on server operating systems Ubuntu, Debian and others reboots the operating system. Do you want to continue?</source>
+			<translation>Kombinace kláves Ctrl+Alt+Del na serverových operačních systémech Ubuntu, Debian a dalších restartuje operační systém. Chceš pokračovat?</translation>
+		</message>
 	</context>
 	<context>
 		<name>UIVMConsoleWarning</name>
