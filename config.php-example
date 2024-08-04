@@ -26,6 +26,19 @@ class phpVBoxConfig {
     /* Attention! You also need to add 'www-data' to sudoers! */
     var $use_sudo = true;
 
+    /* If the array is not empty, when attempting to log in as 'admin',
+       the system will check the user's IP address against the list in this array.
+       If the user has an inappropriate IP address, access will be denied. */
+    var $admin_allowed_ips = [
+        /* "11.22.33.44/32",
+        "192.168.1.0/24",
+        "127.0.0.0/8" */
+    ];
+
+    /* If this option is enabled, the system will take into account
+      that the web server is accessible via CloudFlare. */
+    var $check_cloudflare_ips = true;
+
 /* ## THE END OF SETTINGS FOR MODIFIED CONSOLE ## */
 
 /* Username / Password for system user that runs VirtualBox */

@@ -27,6 +27,7 @@ header("Pragma: no-cache");
 require_once(dirname(__FILE__).'/lib/config.php');
 require_once(dirname(__FILE__).'/lib/utils.php');
 require_once(dirname(__FILE__).'/lib/vboxconnector.php');
+require_once(dirname(__FILE__).'/../classes/IpHelper.php');
 
 // Init session
 global $_SESSION;
@@ -126,6 +127,24 @@ try {
 			session_init(true);
 
 			$settings = new phpVBoxConfigClass();
+
+			if (strtolower($request['params']['u']) == 'admin' && isset($settings->admin_allowed_ips) && count($settings->admin_allowed_ips) > 0) {
+				$source_ip = $_SERVER['REMOTE_ADDR'];
+
+				if ($settings->check_cloudflare_ips && IpHelper::isCloudFlareAddress($source_ip)) {
+					$source_ip = $_SERVER["HTTP_CF_CONNECTING_IP"] ?? $_SERVER["REMOTE_ADDR"];
+				}
+				$match_at_least_one = false;
+				foreach ($settings->admin_allowed_ips as $admin_ip) {
+					if (IpHelper::checkIpMatch($source_ip, $admin_ip)) {
+						$match_at_least_one = true;
+					}
+				}
+
+				if (!$match_at_least_one) {
+					throw new Exception("Logging in into 'admin' is not allowed from this IP address!");
+				}
+			}
 
 			// Try / catch here to hide login credentials
 			try {
