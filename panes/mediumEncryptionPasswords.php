@@ -1,3 +1,19 @@
+<?php
+
+require_once(dirname(__FILE__).'/../endpoints/lib/config.php');
+require_once(dirname(__FILE__).'/../endpoints/lib/utils.php');
+require_once(dirname(__FILE__).'/../endpoints/lib/vboxconnector.php');
+
+// Init session
+global $_SESSION;
+session_init(true);
+
+$is_admin = !!$_SESSION['admin'];
+if (!$is_admin) {
+    echo "Access denied";
+    return;
+}
+?>
 <!--
 
     Store medium encryption passwords in memory

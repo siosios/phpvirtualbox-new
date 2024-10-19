@@ -72,6 +72,48 @@
 		</message>
 	</context>
 	<context>
+		<name>VBoxServerCredentials</name>
+		<message>
+			<source>Credentials</source>
+			<translation>Pověření</translation>
+		</message>
+		<message>
+			<source>Login</source>
+			<translation>Přihlášení</translation>
+		</message>
+		<message>
+			<source>Password</source>
+			<translation>Heslo</translation>
+		</message>
+		<message>
+			<source>Show password</source>
+			<translation>Zobrazit</translation>
+		</message>
+		<message>
+			<source>For added security, change the administrator password. Changing the password on the server will not reflect the change here.</source>
+			<translation>Pro zvýšení bezpečnosti změňte heslo správce. Změny hesla na serveru se zde neprojeví.</translation>
+		</message>
+	</context>
+	<context>
+		<name>VBoxServerNetwork</name>
+		<message>
+			<source>DNS-zone</source>
+			<translation>DNS-zóna</translation>
+		</message>
+		<message>
+			<source>IP address</source>
+			<translation>IP adresa</translation>
+		</message>
+		<message>
+			<source>Default gateway</source>
+			<translation>Výchozí brána</translation>
+		</message>
+		<message>
+			<source>LAN</source>
+			<translation>Místní síť</translation>
+		</message>
+	</context>
+	<context>
 		<name>VBoxSelectorWnd</name>
 		<message>
 			<source>Change Password</source>

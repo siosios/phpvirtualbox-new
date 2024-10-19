@@ -72,6 +72,48 @@
 		</message>
 	</context>
 	<context>
+		<name>VBoxServerCredentials</name>
+		<message>
+			<source>Credentials</source>
+			<translation>證書</translation>
+		</message>
+		<message>
+			<source>Login</source>
+			<translation>登入</translation>
+		</message>
+		<message>
+			<source>Password</source>
+			<translation>密碼</translation>
+		</message>
+		<message>
+			<source>Show password</source>
+			<translation>顯示密碼</translation>
+		</message>
+		<message>
+			<source>For added security, change the administrator password. Changing the password on the server will not reflect the change here.</source>
+			<translation>為了增加安全性，請更改管理員密碼。在伺服器上更改密碼不會反映此處的變更。</translation>
+		</message>
+	</context>
+	<context>
+		<name>VBoxServerNetwork</name>
+		<message>
+			<source>DNS-zone</source>
+			<translation>DNS 區域</translation>
+		</message>
+		<message>
+				<source>IP address</source>
+			<translation>IP位址</translation>
+		</message>
+		<message>
+			<source>Default gateway</source>
+			<translation>預設網關</translation>
+		</message>
+		<message>
+			<source>LAN</source>
+			<translation>區域網路</translation>
+		</message>
+	</context>
+	<context>
 		<name>VBoxSelectorWnd</name>
 		<message>
 			<source>Change Password</source>

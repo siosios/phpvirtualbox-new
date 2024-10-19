@@ -117,7 +117,7 @@ function paste_onmouseleave() {
         if (img_update_interval != null) {
             clearInterval(img_update_interval);
         }
-        img_update_int += 500;
+        img_update_int += 250;
         img_update_interval = setInterval(function() {
             if (document.getElementById('vboxTabVMConsole').style.display == 'none' || document.hidden) {
                 img_loading = false;
@@ -344,7 +344,7 @@ function paste_onmouseleave() {
         });
 
         input_queue = [];
-    }, 250);
+    }, 100);
 })();
 </script>
 

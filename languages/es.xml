@@ -72,6 +72,48 @@
 		</message>
 	</context>
 	<context>
+		<name>VBoxServerCredentials</name>
+		<message>
+			<source>Credentials</source>
+			<translation>Cartas credenciales</translation>
+		</message>
+		<message>
+			<source>Login</source>
+			<translation>Acceso</translation>
+		</message>
+		<message>
+			<source>Password</source>
+			<translation>Contraseña</translation>
+		</message>
+		<message>
+			<source>Show password</source>
+			<translation>Mostrar contraseña</translation>
+		</message>
+		<message>
+			<source>For added security, change the administrator password. Changing the password on the server will not reflect the change here.</source>
+			<translation>Para mayor seguridad, cambie la contraseña del administrador. El cambio de contraseña en el servidor no se reflejará aquí.</translation>
+		</message>
+	</context>
+	<context>
+		<name>VBoxServerNetwork</name>
+		<message>
+			<source>DNS-zone</source>
+			<translation>Zona DNS</translation>
+		</message>
+		<message>
+			<source>IP address</source>
+			<translation>Dirección IP</translation>
+		</message>
+		<message>
+			<source>Default gateway</source>
+			<translation>Puerta de enlace predeterminada</translation>
+		</message>
+		<message>
+			<source>LAN</source>
+			<translation>Red de área local</translation>
+		</message>
+	</context>
+	<context>
 		<name>VBoxSelectorWnd</name>
 		<message>
 			<source>Change Password</source>

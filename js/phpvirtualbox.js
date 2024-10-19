@@ -402,13 +402,86 @@ var vboxVMDetailsSections = {
 		}
 	},
 
+	credentials: {
+		icon: 'description_16px.png',
+		title: 'Credentials',
+		enabledForUser: true,
+		language_context: 'UIGDetails',
+		settingsLink: null,
+		rows: function(d) {
+			var rows = [];
+			rows.push({
+				title: trans('Login', 'VBoxServerCredentials'),
+				data: d.additionalData.login
+			});
+
+			rows.push({
+				title: trans('Password', 'VBoxServerCredentials'),
+				data: '<a href="javascript:vboxGuestShowServerPasswordInit(\''+d['id']+'\');">' + trans('Show', 'VBoxServerCredentials') + '</a>',
+				html: true
+			})
+			return rows;
+		}
+	},
+
 	/*
 	 * Network adapters
 	 */
-	network: {
+
+	usernetwork: {
 		icon: 'nw_16px.png',
 		title: 'Network',
 		enabledForUser: true,
+		redrawMachineEvents: ['OnNetworkAdapterChanged','OnMachineStateChanged'],
+		settingsLink: null,
+		rows: function(d) {
+			var rows = [];
+
+			if (typeof d.additionalData != "object"
+				|| typeof d.additionalData.ip != "object"
+				|| typeof d.additionalData.gateway != "string"
+				|| typeof d.additionalData.dns != "string")
+			{
+				return rows;
+			}
+
+			rows.push({
+				title: trans('DNS-zone', 'VBoxServerNetwork'),
+				data: d.additionalData.dns
+			});
+
+			rows.push({
+				title: trans('IP address', 'VBoxServerNetwork'),
+				data: d.additionalData.ip[0]
+			});
+
+			for (let i = 1; i < d.additionalData.ip.length; i++) {
+				rows.push({
+					title: '',
+					data: d.additionalData.ip[i]
+				});
+			}
+
+			rows.push({
+				title: trans('Default gateway', 'VBoxServerNetwork'),
+				data: d.additionalData.gateway
+			});
+
+			if (d.additionalData.lan != '') {
+				rows.push({
+					title: trans('LAN', 'VBoxServerNetwork'),
+					data: d.additionalData.lan
+				});
+			}
+
+			return rows;
+		}
+	},
+
+	network: {
+		icon: 'nw_16px.png',
+		title: 'Network',
+		enabledForUser: false,
 		redrawMachineEvents: ['OnNetworkAdapterChanged','OnMachineStateChanged'],
 		settingsLink: 'Network',
 		rows: function(d) {

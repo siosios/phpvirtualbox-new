@@ -1062,6 +1062,44 @@ function vboxGuestNetworkAdaptersDialogInit(vm) {
 	
 }
 
+function vboxGuestShowServerPasswordInit() {
+	/*
+	 * 	Dialog
+	 */
+	$('#vboxPane').append($('<div />').attr({'id':'vboxGuestShowServerPassword','style':'display: none'}));
+
+	/*
+	 * Loader
+	 */
+	var l = new vboxLoader();
+	l.addFileToDOM('panes/checkServerPassword.php', $('#vboxGuestShowServerPassword'));
+	l.onLoad = function(){
+
+		var buttons = {};
+		buttons[trans('Close','UIVMLogViewer')] = function() {$('#vboxGuestShowServerPassword').trigger('close').empty().remove();};
+
+		$.when(vboxAjaxRequest('machineGetPassword',{vm: vboxChooser.getSingleSelectedId()})).done(function(d){
+			$("#vboxServerPasswordInput").val(d.responseData.password);
+
+			$('#vboxGuestShowServerPassword').dialog({
+				'closeOnEscape':true,
+				'width': 500,
+				'height': 250,
+				'buttons': buttons,
+				'modal': true,
+				'autoOpen': true,
+				'dialogClass': 'vboxDialogContent',
+				'title': '<img src="images/vbox/description_16px.png" class="vboxDialogTitleIcon" /> ' + trans('Password', 'VBoxServerCredentials')}
+			).on("dialogbeforeclose",function() {
+				$(this).parent().find('span:contains("'+trans('Close','UIVMLogViewer')+'")').trigger('click');
+			});
+		}).fail(function(){
+			alert('Error');
+		});
+	};
+	l.run();
+}
+
 
 /**
  * Display Global Preferences dialog

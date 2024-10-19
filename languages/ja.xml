@@ -72,6 +72,48 @@
 		</message>
 	</context>
 	<context>
+		<name>VBoxServerCredentials</name>
+		<message>
+			<source>Credentials</source>
+			<translation>資格</translation>
+		</message>
+		<message>
+			<source>Login</source>
+			<translation>ログイン</translation>
+		</message>
+		<message>
+			<source>Password</source>
+			<translation>パスワード</translation>
+		</message>
+		<message>
+			<source>Show password</source>
+			<translation>を表示</translation>
+		</message>
+		<message>
+			<source>For added security, change the administrator password. Changing the password on the server will not reflect the change here.</source>
+			<translation>セキュリティを強化するために、管理者パスワードを変更してください。サーバー上でパスワードを変更しても、ここでの変更は反映されません。</translation>
+		</message>
+	</context>
+	<context>
+		<name>VBoxServerNetwork</name>
+		<message>
+			<source>DNS-zone</source>
+			<translation>DNSゾーン</translation>
+		</message>
+		<message>
+			<source>IP address</source>
+			<translation>IPアドレス</translation>
+		</message>
+		<message>
+			<source>Default gateway</source>
+			<translation>デフォルトゲートウェイ</translation>
+		</message>
+		<message>
+			<source>LAN</source>
+			<translation>ローカルエリアネットワーク</translation>
+		</message>
+	</context>
+	<context>
 		<name>VBoxSelectorWnd</name>
 		<message>
 			<source>Change Password</source>

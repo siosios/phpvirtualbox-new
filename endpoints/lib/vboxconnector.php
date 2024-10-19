@@ -3548,6 +3548,52 @@ class vboxconnector {
 		return $response;
 	}
 
+    public function remote_machineGetPassword($args) {
+        $vm = $args['vm'] ?? '';
+
+        if ($vm == '') {
+            throw new Exception('Server is not specified');
+        }
+        // Connect to vboxwebsrv
+        $this->connect();
+
+        $machine = $this->vbox->findMachine($vm);
+
+        $vm = $machine->id;
+
+        // Check for accessibility
+        if(!$machine->accessible) {
+            throw new Exception('Server is unavailable');
+        }
+
+        if($this->settings->phpVboxGroups) {
+            $groups = explode(',',$machine->getExtraData(vboxconnector::phpVboxGroupKey));
+            if(!is_array($groups) || (count($groups) == 1 && !$groups[0])) $groups = array("/");
+        } else {
+            $groups = $machine->groups;
+        }
+
+        if (!$_SESSION['admin'] && !in_array('/'.$_SESSION['user'], $groups)) {
+            return [
+                'password' => ''
+            ];
+        }
+
+        if (file_exists('../additionalData.php')) {
+            $additionalData = require '../additionalData.php';
+
+            if (isset($additionalData[$machine->id]))
+            {
+                return [
+                    'password' => $additionalData[$machine->id]['password'] ?? ''
+                ];
+            }
+        }
+
+        return [
+            'password' => ''
+        ];
+    }
 
 	/**
 	 * Get virtual machine or virtualbox host details
@@ -3561,7 +3607,9 @@ class vboxconnector {
 
 		// Host instead of vm info
 		if($args['vm'] == 'host') {
-
+            if (!$_SESSION['admin']) {
+                throw new Exception("Access denied");
+            }
 			$response = $this->remote_hostGetDetails($args);
 
 			return $response;
@@ -3605,11 +3653,46 @@ class vboxconnector {
 
 		}
 
+        if($this->settings->phpVboxGroups) {
+            $groups = explode(',',$machine->getExtraData(vboxconnector::phpVboxGroupKey));
+            if(!is_array($groups) || (count($groups) == 1 && !$groups[0])) $groups = array("/");
+        } else {
+            $groups = $machine->groups;
+        }
+
+        if (!$_SESSION['admin'] && !in_array('/'.$_SESSION['user'], $groups)) {
+            throw new Exception("You don't have permission to see details of this server");
+        }
+
 		// Basic data
 		$data = $this->_machineGetDetails($machine);
 
 		// Network Adapters
 		$data['networkAdapters'] = $this->_machineGetNetworkAdapters($machine);
+
+        $data['additionalData'] = [
+            'login' => '',
+            'ip' => [],
+            'gateway' => '',
+            'dns' => '',
+            'lan' => ''
+        ];
+
+        if (file_exists('../additionalData.php')) {
+            $additionalData = require '../additionalData.php';
+
+            $data['additionalData'] = [];
+
+            if (isset($additionalData[$machine->id]))
+            {
+                $serverData = $additionalData[$machine->id];
+                $data['additionalData']['login'] = $serverData['login'] ?? '';
+                $data['additionalData']['ip'] = $serverData['ip'] ?? [];
+                $data['additionalData']['lan'] = $serverData['lan'] ?? '';
+                $data['additionalData']['dns'] = $serverData['dns'] ?? '';
+                $data['additionalData']['gateway'] = $serverData['gateway'] ?? '';
+            }
+        }
 
 		// Storage Controllers
 		$data['storageControllers'] = $this->_machineGetStorageControllers($machine);

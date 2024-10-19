@@ -72,6 +72,48 @@
 		</message>
 	</context>
 	<context>
+		<name>VBoxServerCredentials</name>
+		<message>
+			<source>Credentials</source>
+			<translation>Akkreditiver</translation>
+		</message>
+		<message>
+			<source>Login</source>
+			<translation>Log ind</translation>
+		</message>
+		<message>
+			<source>Password</source>
+			<translation>Adgangskode</translation>
+		</message>
+		<message>
+			<source>Show password</source>
+			<translation>Vis</translation>
+		</message>
+		<message>
+			<source>For added security, change the administrator password. Changing the password on the server will not reflect the change here.</source>
+			<translation>For at øge sikkerheden skal du ændre administratoradgangskoden. Ændring af adgangskoden på serveren vil ikke afspejle ændringen her.</translation>
+		</message>
+	</context>
+	<context>
+		<name>VBoxServerNetwork</name>
+		<message>
+			<source>DNS-zone</source>
+			<translation>DNS-zone</translation>
+		</message>
+		<message>
+			<source>IP address</source>
+			<translation>IP-adresse</translation>
+		</message>
+		<message>
+			<source>Default gateway</source>
+			<translation>Standard gateway</translation>
+		</message>
+		<message>
+			<source>LAN</source>
+			<translation>Lokalnetværk</translation>
+		</message>
+	</context>
+	<context>
 		<name>VBoxSelectorWnd</name>
 		<message>
 			<source>Change Password</source>
