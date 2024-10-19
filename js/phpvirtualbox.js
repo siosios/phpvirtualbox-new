@@ -417,7 +417,7 @@ var vboxVMDetailsSections = {
 
 			rows.push({
 				title: trans('Password', 'VBoxServerCredentials'),
-				data: '<a href="javascript:vboxGuestShowServerPasswordInit(\''+d['id']+'\');">' + trans('Show', 'VBoxServerCredentials') + '</a>',
+				data: '<a href="javascript:vboxGuestShowServerPasswordInit(\''+d['id']+'\');">' + trans('Show password', 'VBoxServerCredentials') + '</a>',
 				html: true
 			})
 			return rows;
