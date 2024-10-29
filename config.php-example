@@ -41,6 +41,9 @@ class phpVBoxConfig {
 
 /* ## THE END OF SETTINGS FOR MODIFIED CONSOLE ## */
 
+/* Replaces spaces " " to "@". It's needed if you want to use E-Mail addresses as usernames */
+var $replaceSpacesToMail = false;
+
 /* Username / Password for system user that runs VirtualBox */
 var $username = 'vbox';
 var $password = 'pass';

@@ -107,7 +107,15 @@ try {
 
 $groups = $machine->getGroups();
 
-if (!$_SESSION['admin'] && !in_array('/'.$_SESSION['user'], $groups)) {
+$newGroups = $groups;
+if ($settings->replaceSpacesToMail) {
+    $newGroups = [];
+    foreach ($groups as $group) {
+        $newGroups[] = str_replace(" ", "@", $group);
+    }
+}
+
+if (!$_SESSION['admin'] && !in_array('/'.$_SESSION['user'], $newGroups)) {
     die("You don't have access to this machine");
 }
 
