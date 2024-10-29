@@ -3256,7 +3256,14 @@ class vboxconnector {
 
         $vmname = $machine->name;
 
-        if (!$_SESSION['admin'] && !in_array('/'.$_SESSION['user'], $groups)) {
+        $newGroups = $groups;
+        if ($this->settings->replaceSpacesToMail) {
+            foreach ($groups as $group) {
+                $newGroups[] = str_replace(" ", "@", $group);
+            }
+        }
+
+        if (!$_SESSION['admin'] && !in_array('/'.$_SESSION['user'], $newGroups)) {
             throw new Exception("You're not allowed to run this VM");
         }
 
@@ -3573,7 +3580,14 @@ class vboxconnector {
             $groups = $machine->groups;
         }
 
-        if (!$_SESSION['admin'] && !in_array('/'.$_SESSION['user'], $groups)) {
+        $newGroups = $groups;
+        if ($this->settings->replaceSpacesToMail) {
+            foreach ($groups as $group) {
+                $newGroups[] = str_replace(" ", "@", $group);
+            }
+        }
+
+        if (!$_SESSION['admin'] && !in_array('/'.$_SESSION['user'], $newGroups)) {
             return [
                 'password' => ''
             ];
@@ -3660,7 +3674,14 @@ class vboxconnector {
             $groups = $machine->groups;
         }
 
-        if (!$_SESSION['admin'] && !in_array('/'.$_SESSION['user'], $groups)) {
+        $newGroups = $groups;
+        if ($this->settings->replaceSpacesToMail) {
+            foreach ($groups as $group) {
+                $newGroups[] = str_replace(" ", "@", $group);
+            }
+        }
+
+        if (!$_SESSION['admin'] && !in_array('/'.$_SESSION['user'], $newGroups)) {
             throw new Exception("You don't have permission to see details of this server");
         }
 
@@ -4185,8 +4206,15 @@ class vboxconnector {
 				}
 
 				usort($groups, 'strnatcasecmp');
+
+                $newGroups = $groups;
+                if ($this->settings->replaceSpacesToMail) {
+                    foreach ($groups as $group) {
+                        $newGroups[] = str_replace(" ", "@", $group);
+                    }
+                }
 				
-				if (!!$_SESSION['admin'] || in_array('/'.$_SESSION['user'], $groups)) {
+				if (!!$_SESSION['admin'] || in_array('/'.$_SESSION['user'], $newGroups)) {
 					$vmlist[] = array(
 						'name' => @$this->settings->enforceVMOwnership ? preg_replace('/^' . preg_quote($_SESSION['user']) . '_/', '', $machine->name) : $machine->name,
 						'state' => (string)$machine->state,
@@ -4334,7 +4362,14 @@ class vboxconnector {
 			$groups = $m->groups;
 		}
 
-		if (!$_SESSION['admin'] && !in_array('/'.$_SESSION['user'], $groups)) {
+        $newGroups = $groups;
+        if ($this->settings->replaceSpacesToMail) {
+            foreach ($groups as $group) {
+                $newGroups[] = str_replace(" ", "@", $group);
+            }
+        }
+
+		if (!$_SESSION['admin'] && !in_array('/'.$_SESSION['user'], $newGroups)) {
 			return [];
 		}
 
