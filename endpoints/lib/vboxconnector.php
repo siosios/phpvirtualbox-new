@@ -3258,6 +3258,7 @@ class vboxconnector {
 
         $newGroups = $groups;
         if ($this->settings->replaceSpacesToMail) {
+            $newGroups = [];
             foreach ($groups as $group) {
                 $newGroups[] = str_replace(" ", "@", $group);
             }
@@ -3582,6 +3583,7 @@ class vboxconnector {
 
         $newGroups = $groups;
         if ($this->settings->replaceSpacesToMail) {
+            $newGroups = [];
             foreach ($groups as $group) {
                 $newGroups[] = str_replace(" ", "@", $group);
             }
@@ -3676,6 +3678,7 @@ class vboxconnector {
 
         $newGroups = $groups;
         if ($this->settings->replaceSpacesToMail) {
+            $newGroups = [];
             foreach ($groups as $group) {
                 $newGroups[] = str_replace(" ", "@", $group);
             }
@@ -4209,6 +4212,7 @@ class vboxconnector {
 
                 $newGroups = $groups;
                 if ($this->settings->replaceSpacesToMail) {
+                    $newGroups = [];
                     foreach ($groups as $group) {
                         $newGroups[] = str_replace(" ", "@", $group);
                     }
@@ -4220,7 +4224,7 @@ class vboxconnector {
 						'state' => (string)$machine->state,
 						'OSTypeId' => $machine->getOSTypeId(),
 						'owner' => (@$this->settings->enforceVMOwnership ? $machine->getExtraData("phpvb/sso/owner") : ''),
-						'groups' => $groups,
+						'groups' => $newGroups,
 						'lastStateChange' => (string)($machine->lastStateChange/1000),
 						'id' => $machine->id,
 						'currentStateModified' => $machine->currentStateModified,
@@ -4364,6 +4368,7 @@ class vboxconnector {
 
         $newGroups = $groups;
         if ($this->settings->replaceSpacesToMail) {
+            $newGroups = [];
             foreach ($groups as $group) {
                 $newGroups[] = str_replace(" ", "@", $group);
             }

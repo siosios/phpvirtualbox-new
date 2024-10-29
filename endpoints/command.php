@@ -109,6 +109,7 @@ $groups = $machine->getGroups();
 
 $newGroups = $groups;
 if ($settings->replaceSpacesToMail) {
+    $newGroups = [];
     foreach ($groups as $group) {
         $newGroups[] = str_replace(" ", "@", $group);
     }
