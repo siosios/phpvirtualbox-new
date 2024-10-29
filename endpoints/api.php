@@ -106,6 +106,176 @@ try {
 
 			break;
 
+        case 'resetPassword1':
+            global $_SESSION;
+            $response['data']['success'] = false;
+            $response['data']['error'] = '';
+            if (!$request['params']['u']) {
+                break;
+            }
+            $username = $request['params']['u'];
+            $_SESSION['valid'] = true;
+            $settings = new phpVBoxConfigClass();
+            $pathToDatabase = $settings->passwordResetSessionsFile ?? null;
+
+            if ($pathToDatabase === null) {
+                throw new Exception('Path to database is not specified');
+            }
+
+            $allUsers = $settings->auth->listUsers();
+
+            require_once '../classes/ResetPasswordHelper.php';
+            if ($username != 'admin' && isset($allUsers[$username])) {
+                $create = !file_exists($pathToDatabase);
+                $db = new SQLite3($pathToDatabase, SQLITE3_OPEN_CREATE | SQLITE3_OPEN_READWRITE);
+                if ($create) {
+                    $db->exec("CREATE TABLE sessions (
+    username VARCHAR(255) NOT NULL UNIQUE,
+    expires INTEGER NULL,
+    lastsent INTEGER NOT NULL,
+    code VARCHAR(255) NOT NULL
+);");
+                }
+
+                $db->exec("DELETE FROM sessions WHERE expires < " . time() . ";");
+                $dbUsername = SQLite3::escapeString($username);
+                $check = $db->query("SELECT exists(SELECT username FROM sessions WHERE username='$dbUsername') AS rowExists;")->fetchArray();
+                if ($check['rowExists']) {
+                    $response['data']['error'] = "You have recently tried to reset this user's password. Please try again later.";
+                    break;
+                }
+                $code = md5(rand(100000000, 999999999) . " " . rand(100000000, 999999999) . " " . rand(100000000, 999999999) . " " . microtime(true));
+                $time = time();
+                $expires = $time + 3600 * 2;
+                $db->exec("INSERT INTO sessions (username, expires, lastsent, code) VALUES ('$dbUsername', $expires, $time, '$code');");
+                ResetPasswordHelper::sendCode($username, $code, $expires);
+                $response['data']['success'] = true;
+            } else {
+                $response['data']['error'] = "Account does not exist.";
+            }
+            break;
+
+        case 'resetPasswordResendCode':
+            global $_SESSION;
+            $response['data']['success'] = false;
+            $response['data']['error'] = '';
+            if (!$request['params']['u']) {
+                break;
+            }
+            $username = $request['params']['u'];
+            $_SESSION['valid'] = true;
+            $settings = new phpVBoxConfigClass();
+            $pathToDatabase = $settings->passwordResetSessionsFile ?? null;
+
+            if ($pathToDatabase === null) {
+                throw new Exception('Path to database is not specified');
+            }
+
+            $allUsers = $settings->auth->listUsers();
+
+            require_once '../classes/ResetPasswordHelper.php';
+
+            if ($username != 'admin' && isset($allUsers[$username])) {
+                $create = !file_exists($pathToDatabase);
+                $db = new SQLite3($pathToDatabase, SQLITE3_OPEN_CREATE | SQLITE3_OPEN_READWRITE);
+                if ($create) {
+                    $db->exec("CREATE TABLE sessions (
+    username VARCHAR(255) NOT NULL UNIQUE,
+    expires INTEGER NULL,
+    lastsent INTEGER NOT NULL,
+    code VARCHAR(255) NOT NULL
+);");
+                }
+
+                $db->exec("DELETE FROM sessions WHERE expires < " . time() . ";");
+                $dbUsername = SQLite3::escapeString($username);
+                $session = $db->query("SELECT * FROM sessions WHERE username='$dbUsername';")->fetchArray();
+                if ($session == null) {
+                    $response['data']['error'] = "Session is expired.";
+                    break;
+                }
+                $lastsent = $session['lastsent'];
+                $time = time();
+                if ($lastsent < $time - 120) {
+                    $code = $session['code'];
+                    $expires = (int)$session['expires'];
+                    $db->exec("UPDATE sessions SET lastsent=$time WHERE username='$dbUsername';");
+                    ResetPasswordHelper::sendCode($username, $code, $expires);
+                    $response['data']['success'] = true;
+                } else {
+                    $response['data']['error'] = "A confirmation code was sent recently. Try again later.";
+                }
+            } else {
+                $response['data']['error'] = "Account does not exist.";
+            }
+            break;
+
+        case 'resetPassword2':
+            global $_SESSION;
+            $response['data']['success'] = false;
+            $response['data']['error'] = '';
+            if (!$request['params']['u'] || !$request['params']['c']) {
+                break;
+            }
+            $username = $request['params']['u'];
+            $code = $request['params']['c'];
+            $password = $request['params']['p'];
+            $checkCodeOnly = (bool)$request['params']['checkCodeOnly'];
+            if (!$checkCodeOnly && strlen($password) < 5) {
+                $response['data']['error'] = "Password is too weak.";
+                break;
+            }
+            $_SESSION['valid'] = true;
+            $settings = new phpVBoxConfigClass();
+            $pathToDatabase = $settings->passwordResetSessionsFile ?? null;
+
+            if ($pathToDatabase === null) {
+                throw new Exception('Path to database is not specified');
+            }
+
+            $allUsers = $settings->auth->listUsers();
+
+            require_once '../classes/ResetPasswordHelper.php';
+            if ($username != 'admin' && isset($allUsers[$username])) {
+                $create = !file_exists($pathToDatabase);
+                $db = new SQLite3($pathToDatabase, SQLITE3_OPEN_CREATE | SQLITE3_OPEN_READWRITE);
+                if ($create) {
+                    $db->exec("CREATE TABLE sessions (
+    username VARCHAR(255) NOT NULL UNIQUE,
+    expires INTEGER NULL,
+    lastsent INTEGER NOT NULL,
+    code VARCHAR(255) NOT NULL
+);");
+                }
+
+                $db->exec("DELETE FROM sessions WHERE expires < " . time() . ";");
+                $dbUsername = SQLite3::escapeString($username);
+                $dbCode = SQLite3::escapeString($code);
+                $check = $db->query("SELECT exists(SELECT username FROM sessions WHERE username='$dbUsername' AND code='$dbCode') AS rowExists;")->fetchArray();
+                if (!$check['rowExists']) {
+                    $response['data']['error'] = "Confirmation code is invalid.";
+                    break;
+                }
+
+                if ($checkCodeOnly) {
+                    $response['data']['success'] = true;
+                    break;
+                }
+                $skipExistCheck = true;
+                $_SESSION['admin'] = true;
+                $settings->auth->updateUser([
+                    'u' => $username,
+                    'p' => $password,
+                    'a' => false
+                ], @$skipExistCheck);
+                $_SESSION['admin'] = false;
+                $response['data']['success'] = true;
+                $db->exec("DELETE FROM sessions WHERE username='$dbUsername';");
+            } else {
+                $response['data']['error'] = "Account does not exist.";
+            }
+            break;
+
 		/*
 		 *
 		 * USER FUNCTIONS FOLLOW
