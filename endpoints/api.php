@@ -116,6 +116,9 @@ try {
             $username = $request['params']['u'];
             $_SESSION['valid'] = true;
             $settings = new phpVBoxConfigClass();
+            if (!$settings->enablePasswordReset) {
+                throw new Exception("Reset password function is disabled.");
+            }
             $pathToDatabase = $settings->passwordResetSessionsFile ?? null;
 
             if ($pathToDatabase === null) {
@@ -124,7 +127,7 @@ try {
 
             $allUsers = $settings->auth->listUsers();
 
-            require_once '../classes/ResetPasswordHelper.php';
+            require_once '../classes/NotificationHelper.php';
             if ($username != 'admin' && isset($allUsers[$username])) {
                 $create = !file_exists($pathToDatabase);
                 $db = new SQLite3($pathToDatabase, SQLITE3_OPEN_CREATE | SQLITE3_OPEN_READWRITE);
@@ -148,7 +151,7 @@ try {
                 $time = time();
                 $expires = $time + 3600 * 2;
                 $db->exec("INSERT INTO sessions (username, expires, lastsent, code) VALUES ('$dbUsername', $expires, $time, '$code');");
-                ResetPasswordHelper::sendCode($username, $code, $expires);
+                NotificationHelper::onPasswordSendConfirmationCode($username, $code, $expires);
                 $response['data']['success'] = true;
             } else {
                 $response['data']['error'] = "Account does not exist.";
@@ -165,6 +168,9 @@ try {
             $username = $request['params']['u'];
             $_SESSION['valid'] = true;
             $settings = new phpVBoxConfigClass();
+            if (!$settings->enablePasswordReset) {
+                throw new Exception("Reset password function is disabled.");
+            }
             $pathToDatabase = $settings->passwordResetSessionsFile ?? null;
 
             if ($pathToDatabase === null) {
@@ -173,7 +179,7 @@ try {
 
             $allUsers = $settings->auth->listUsers();
 
-            require_once '../classes/ResetPasswordHelper.php';
+            require_once '../classes/NotificationHelper.php';
 
             if ($username != 'admin' && isset($allUsers[$username])) {
                 $create = !file_exists($pathToDatabase);
@@ -200,7 +206,7 @@ try {
                     $code = $session['code'];
                     $expires = (int)$session['expires'];
                     $db->exec("UPDATE sessions SET lastsent=$time WHERE username='$dbUsername';");
-                    ResetPasswordHelper::sendCode($username, $code, $expires);
+                    NotificationHelper::onPasswordSendConfirmationCode($username, $code, $expires);
                     $response['data']['success'] = true;
                 } else {
                     $response['data']['error'] = "A confirmation code was sent recently. Try again later.";
@@ -227,6 +233,9 @@ try {
             }
             $_SESSION['valid'] = true;
             $settings = new phpVBoxConfigClass();
+            if (!$settings->enablePasswordReset) {
+                throw new Exception("Reset password function is disabled.");
+            }
             $pathToDatabase = $settings->passwordResetSessionsFile ?? null;
 
             if ($pathToDatabase === null) {

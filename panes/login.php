@@ -1,3 +1,10 @@
+<?php
+require_once(dirname(__FILE__).'/../endpoints/lib/config.php');
+require_once(dirname(__FILE__).'/../endpoints/lib/utils.php');
+require_once(dirname(__FILE__).'/../endpoints/lib/vboxconnector.php');
+
+$settings = new phpVBoxConfigClass();
+?>
 <!--
 	Login dialog
 
@@ -23,7 +30,9 @@
         </table>
     </form>
     <div style="display: flex; flex-direction: column;">
+        <?php if ($settings->enablePasswordReset): ?>
         <a href="javascript:;" id="resetPasswordBtn" class="translate" style="margin: auto; color: blue;">Restore password</a>
+        <?php endif; ?>
     </div>
 </div>
 <script type='text/javascript'>
