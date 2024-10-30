@@ -7,5 +7,7 @@
 /.idea
 /config.php-example
 /README.md
+/classes/NotificationHelper.php
+/classes/NotificationHelper.php-example
 /additionalData.php
 /additionalData.example.php
