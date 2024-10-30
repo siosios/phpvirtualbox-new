@@ -19,7 +19,7 @@
         </table>
     </form>
     <div style="display: flex; flex-direction: column; margin-top: 10px;">
-        <a href="javascript:;" id="resendCodeBtn" class="translate" style="margin: auto; color: blue;">Resend Code</a>
+        <a href="javascript:;" id="resendCodeBtn" class="translate" style="margin: auto; color: blue;">Resend code</a>
     </div>
 </div>
 <script type='text/javascript'>

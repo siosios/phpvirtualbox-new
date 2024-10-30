@@ -96,7 +96,7 @@ $settings = new phpVBoxConfigClass();
                                         var p1 = $('#vboxResetPassword2').find('input[name=password1]').val();
                                         var p2 = $('#vboxResetPassword2').find('input[name=password2]').val();
                                         if (p1.length === 0 || p1 !== p2) {
-                                            vboxAlert(trans('The passwords you have entered do not match.','UIUsers'),{'width':'auto'});
+                                            vboxAlert(trans('The passwords you have entered do not match.','UIUsers'),{'width':'400px'});
                                             return;
                                         }
                                         changePasswordAjax.add('resetPassword2',function(d) {
