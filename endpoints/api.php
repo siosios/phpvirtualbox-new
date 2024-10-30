@@ -244,7 +244,6 @@ try {
 
             $allUsers = $settings->auth->listUsers();
 
-            require_once '../classes/ResetPasswordHelper.php';
             if ($username != 'admin' && isset($allUsers[$username])) {
                 $create = !file_exists($pathToDatabase);
                 $db = new SQLite3($pathToDatabase, SQLITE3_OPEN_CREATE | SQLITE3_OPEN_READWRITE);

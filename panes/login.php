@@ -105,7 +105,7 @@ $settings = new phpVBoxConfigClass();
                                                 return;
                                             }
 
-                                            alert(trans('Password changed successfully', 'UIUsers'));
+                                            alert(trans('Password changed.', 'UIUsers'));
                                             location.reload();
                                         }, {'u': __USERNAME, c: __CODE, checkCodeOnly: false, p: p1});
                                         changePasswordAjax.onLoad = function() { };

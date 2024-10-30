@@ -9,11 +9,11 @@
     <form>
         <table class='vboxVertical' style='margin:0px;'>
             <tr>
-                <th><span class='translate'>New password</span>:</th>
+                <th><span class='translate'>New Password</span>:</th>
                 <td><input type='password' name='password1' class='vboxText' /></td>
             </tr>
             <tr>
-                <th><span class='translate'>Confirm password</span>:</th>
+                <th><span class='translate'>Retype</span>:</th>
                 <td><input type='password' name='password2' class='vboxText' /></td>
             </tr>
             <tr id='vboxSendCodeBtnRow' style='display:none;padding:0px;margin:0px;border:0px;'>
