@@ -7,6 +7,10 @@ require_once(dirname(__FILE__).'/endpoints/lib/vboxconnector.php');
 // Init session
 global $_SESSION;
 session_init(true);
+
+if (file_exists("classes/NotificationHelper.php-example") && !file_exists("classes/NotificationHelper.php-example")) {
+    die("NotificationHelper is disabled. Please, open <b><code>classes</code></b> folder and copy <b><code>NotificationHelper.php-example</code></b> as <b><code>NotificationHelper.php</code></b>");
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" >
 <html xmlns="http://www.w3.org/1999/xhtml">
