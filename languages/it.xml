@@ -323,7 +323,55 @@
 		<message>
 			<source>Not logged in.</source>
 			<translation>Non autenticato.</translation>
-		</message>		
+		</message>
+		<message>
+			<source>Restore password</source>
+			<translation>Ripristina password</translation>
+		</message>
+		<message>
+			<source>Send confirmation code</source>
+			<translation>Invia codice di conferma</translation>
+		</message>
+		<message>
+			<source>Confirmation code</source>
+			<translation>Codice di conferma</translation>
+		</message>
+		<message>
+			<source>Resend code</source>
+			<translation>Invia nuovamente il codice</translation>
+		</message>
+		<message>
+			<source>Change password</source>
+			<translation>Cambiare la password</translation>
+		</message>
+		<message>
+			<source>Update password</source>
+			<translation>Aggiorna password</translation>
+		</message>
+		<message>
+			<source>You have recently tried to reset this user's password. Please try again later.</source>
+			<translation>Hai provato di recente a reimpostare la password di questo utente. Riprova più tardi.</translation>
+		</message>
+		<message>
+			<source>Account does not exist.</source>
+			<translation>L'account non esiste.</translation>
+		</message>
+		<message>
+			<source>Session is expired.</source>
+			<translation>La sessione è scaduta.</translation>
+		</message>
+		<message>
+			<source>A confirmation code was sent recently. Try again later.</source>
+			<translation>Un codice di conferma è stato inviato di recente. Riprova più tardi.</translation>
+		</message>
+		<message>
+			<source>Password is too weak.</source>
+			<translation>La password è troppo debole.</translation>
+		</message>
+		<message>
+			<source>Confirmation code is invalid.</source>
+			<translation>Il codice di conferma non è valido.</translation>
+		</message>
 	</context>
 </language>
 

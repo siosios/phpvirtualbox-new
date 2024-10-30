@@ -324,5 +324,53 @@
 			<source>Not logged in.</source>
 			<translation>還沒有登入.</translation>
 		</message>
+		<message>
+			<source>Restore password</source>
+			<translation>恢復密碼</translation>
+		</message>
+		<message>
+			<source>Send confirmation code</source>
+			<translation>發送確認碼</translation>
+		</message>
+		<message>
+			<source>Confirmation code</source>
+			<translation>驗證碼</translation>
+		</message>
+		<message>
+			<source>Resend code</source>
+			<translation>重新發送程式碼</translation>
+		</message>
+		<message>
+			<source>Change password</source>
+			<translation>更改密碼</translation>
+		</message>
+		<message>
+			<source>Update password</source>
+			<translation>更新密碼</translation>
+		</message>
+		<message>
+			<source>You have recently tried to reset this user's password. Please try again later.</source>
+			<translation>您最近嘗試重設該使用者的密碼。請稍後重試。</translation>
+		</message>
+		<message>
+			<source>Account does not exist.</source>
+			<translation>帳戶不存在。</translation>
+		</message>
+		<message>
+			<source>Session is expired.</source>
+			<translation>會話已過期。</translation>
+		</message>
+		<message>
+			<source>A confirmation code was sent recently. Try again later.</source>
+			<translation>最近發送了確認碼。稍後再試。</translation>
+		</message>
+		<message>
+			<source>Password is too weak.</source>
+			<translation>密碼太弱。</translation>
+		</message>
+		<message>
+			<source>Confirmation code is invalid.</source>
+			<translation>確認碼無效。</translation>
+		</message>
 	</context>
 </language> 

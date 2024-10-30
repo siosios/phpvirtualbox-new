@@ -323,7 +323,55 @@
 		<message>
 			<source>Not logged in.</source>
 			<translation>ログインしていません。</translation>
-		</message>		
+		</message>
+		<message>
+			<source>Restore password</source>
+			<translation>パスワードを復元する</translation>
+		</message>
+		<message>
+			<source>Send confirmation code</source>
+			<translation>確認コードを送信</translation>
+		</message>
+		<message>
+			<source>Confirmation code</source>
+			<translation>確認コード</translation>
+		</message>
+		<message>
+			<source>Resend code</source>
+			<translation>コードを再送信</translation>
+		</message>
+		<message>
+			<source>Change password</source>
+			<translation>パスワードを変更する</translation>
+		</message>
+		<message>
+			<source>Update password</source>
+			<translation>パスワードを更新</translation>
+		</message>
+		<message>
+			<source>You have recently tried to reset this user's password. Please try again later.</source>
+			<translation>最近、このユーザーのパスワードをリセットしようとしました。しばらくしてからもう一度お試しください。</translation>
+		</message>
+		<message>
+			<source>Account does not exist.</source>
+			<translation>アカウントが存在しません。</translation>
+		</message>
+		<message>
+			<source>Session is expired.</source>
+			<translation>セッションの有効期限が切れました。</translation>
+		</message>
+		<message>
+			<source>A confirmation code was sent recently. Try again later.</source>
+			<translation>確認コードは最近送信されました。しばらくしてからもう一度お試しください。</translation>
+		</message>
+		<message>
+			<source>Password is too weak.</source>
+			<translation>パスワードが弱すぎます。</translation>
+		</message>
+		<message>
+			<source>Confirmation code is invalid.</source>
+			<translation>確認コードが無効です。</translation>
+		</message>
 	</context>
 </language>
 
