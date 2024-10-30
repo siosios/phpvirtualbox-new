@@ -48,6 +48,11 @@ var $replaceSpacesToMail = false;
 var $username = 'vbox';
 var $password = 'pass';
 
+var $enablePasswordReset = false;
+
+/* Path to SQLite3 Database with password reset sessions */
+var $passwordResetSessionsFile = '/path/to/database.db';
+
 /* SOAP URL of vboxwebsrv (not phpVirtualBox's URL) */
 var $location = 'http://127.0.0.1:18083/';
 

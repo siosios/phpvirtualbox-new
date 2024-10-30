@@ -323,6 +323,54 @@
 		<message>
 			<source>Not logged in.</source>
 			<translation>Вы не вошли в систему.</translation>
-		</message>		
+		</message>
+		<message>
+			<source>Restore password</source>
+			<translation>Восстановить пароль</translation>
+		</message>
+		<message>
+			<source>Send confirmation code</source>
+			<translation>Отправить код подтверждения</translation>
+		</message>
+		<message>
+			<source>Confirmation code</source>
+			<translation>Код подтверждения</translation>
+		</message>
+		<message>
+			<source>Resend code</source>
+			<translation>Отправить код ещё раз</translation>
+		</message>
+		<message>
+			<source>Change password</source>
+			<translation>Изменить пароль</translation>
+		</message>
+		<message>
+			<source>Update password</source>
+			<translation>Обновить пароль</translation>
+		</message>
+		<message>
+			<source>You have recently tried to reset this user's password. Please try again later.</source>
+			<translation>Недавно вы пытались сбросить пароль этого пользователя. Повторите попытку позже.</translation>
+		</message>
+		<message>
+			<source>Account does not exist.</source>
+			<translation>Аккаунт не существует.</translation>
+		</message>
+		<message>
+			<source>Session is expired.</source>
+			<translation>Время сессии истекло.</translation>
+		</message>
+		<message>
+			<source>A confirmation code was sent recently. Try again later.</source>
+			<translation>Код подтверждения был отправлен совсем недавно. Попробуйте позже.</translation>
+		</message>
+		<message>
+			<source>Password is too weak.</source>
+			<translation>Пароль слишком слабый.</translation>
+		</message>
+		<message>
+			<source>Confirmation code is invalid.</source>
+			<translation>Неверный код подтверждения.</translation>
+		</message>
 	</context>
 </language>

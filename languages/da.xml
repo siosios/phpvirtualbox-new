@@ -323,6 +323,54 @@
 		<message>
 			<source>Not logged in.</source>
 			<translation>Ikke logget ind.</translation>
-		</message>		
+		</message>
+		<message>
+			<source>Restore password</source>
+			<translation>Gendan adgangskode</translation>
+		</message>
+		<message>
+			<source>Send confirmation code</source>
+			<translation>Send bekræftelseskode</translation>
+		</message>
+		<message>
+			<source>Confirmation code</source>
+			<translation>Bekræftelseskode</translation>
+		</message>
+		<message>
+			<source>Resend code</source>
+			<translation>Send kode igen</translation>
+		</message>
+		<message>
+			<source>Change password</source>
+			<translation>Skift adgangskode</translation>
+		</message>
+		<message>
+			<source>Update password</source>
+			<translation>Opdater adgangskode</translation>
+		</message>
+		<message>
+			<source>You have recently tried to reset this user's password. Please try again later.</source>
+			<translation>Du har for nylig forsøgt at nulstille denne brugers adgangskode. Prøv venligst igen senere.</translation>
+		</message>
+		<message>
+			<source>Account does not exist.</source>
+			<translation>Kontoen findes ikke.</translation>
+		</message>
+		<message>
+			<source>Session is expired.</source>
+			<translation>Session er udløbet.</translation>
+		</message>
+		<message>
+			<source>A confirmation code was sent recently. Try again later.</source>
+			<translation>En bekræftelseskode blev sendt for nylig. Prøv igen senere.</translation>
+		</message>
+		<message>
+			<source>Password is too weak.</source>
+			<translation>Adgangskoden er for svag.</translation>
+		</message>
+		<message>
+			<source>Confirmation code is invalid.</source>
+			<translation>Bekræftelseskoden er ugyldig.</translation>
+		</message>
 	</context>
 </language>

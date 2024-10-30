@@ -323,6 +323,54 @@
 		<message>
 			<source>Not logged in.</source>
 			<translation>Nejste přihlášení.</translation>
-		</message>		
+		</message>
+		<message>
+			<source>Restore password</source>
+			<translation>Obnovit heslo</translation>
+		</message>
+		<message>
+			<source>Send confirmation code</source>
+			<translation>Odeslat potvrzovací kód</translation>
+		</message>
+		<message>
+			<source>Confirmation code</source>
+			<translation>Potvrzovací kód</translation>
+		</message>
+		<message>
+			<source>Resend code</source>
+			<translation>Znovu odeslat kód</translation>
+		</message>
+		<message>
+			<source>Change password</source>
+			<translation>Změňte heslo</translation>
+		</message>
+		<message>
+			<source>Update password</source>
+			<translation>Aktualizovat heslo</translation>
+		</message>
+		<message>
+			<source>You have recently tried to reset this user's password. Please try again later.</source>
+			<translation>Nedávno jste se pokusili resetovat heslo tohoto uživatele. Zkuste to znovu později.</translation>
+		</message>
+		<message>
+			<source>Account does not exist.</source>
+			<translation>Účet neexistuje.</translation>
+		</message>
+		<message>
+			<source>Session is expired.</source>
+			<translation>Platnost relace vypršela.</translation>
+		</message>
+		<message>
+			<source>A confirmation code was sent recently. Try again later.</source>
+			<translation>Nedávno byl odeslán potvrzovací kód. Zkuste to znovu později.</translation>
+		</message>
+		<message>
+			<source>Password is too weak.</source>
+			<translation>Heslo je příliš slabé.</translation>
+		</message>
+		<message>
+			<source>Confirmation code is invalid.</source>
+			<translation>Potvrzovací kód je neplatný.</translation>
+		</message>
 	</context>
 </language>

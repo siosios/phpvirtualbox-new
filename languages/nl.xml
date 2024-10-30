@@ -323,7 +323,55 @@
 		<message>
 			<source>Not logged in.</source>
 			<translation>Niet ingelogd.</translation>
-		</message>		
+		</message>
+		<message>
+			<source>Restore password</source>
+			<translation>Wachtwoord herstellen</translation>
+		</message>
+		<message>
+			<source>Send confirmation code</source>
+			<translation>Bevestigingscode verzenden</translation>
+		</message>
+		<message>
+			<source>Confirmation code</source>
+			<translation>Bevestigingscode</translation>
+		</message>
+		<message>
+			<source>Resend code</source>
+			<translation>Code opnieuw verzenden</translation>
+		</message>
+		<message>
+			<source>Change password</source>
+			<translation>Wachtwoord wijzigen</translation>
+		</message>
+		<message>
+			<source>Update password</source>
+			<translation>Wachtwoord bijwerken</translation>
+		</message>
+		<message>
+			<source>You have recently tried to reset this user's password. Please try again later.</source>
+			<translation>U hebt onlangs geprobeerd het wachtwoord van deze gebruiker te resetten. Probeer het later opnieuw.</translation>
+		</message>
+		<message>
+			<source>Account does not exist.</source>
+			<translation>Account bestaat niet.</translation>
+		</message>
+		<message>
+			<source>Session is expired.</source>
+			<translation>Sessie is verlopen.</translation>
+		</message>
+		<message>
+			<source>A confirmation code was sent recently. Try again later.</source>
+			<translation>Er is onlangs een bevestigingscode verzonden. Probeer het later opnieuw.</translation>
+		</message>
+		<message>
+			<source>Password is too weak.</source>
+			<translation>Het wachtwoord is te zwak.</translation>
+		</message>
+		<message>
+			<source>Confirmation code is invalid.</source>
+			<translation>Bevestigingscode is ongeldig.</translation>
+		</message>
 	</context>
 </language>
 

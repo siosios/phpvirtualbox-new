@@ -323,7 +323,55 @@
 		<message>
 			<source>Not logged in.</source>
 			<translation>Neconectat.</translation>
-		</message>		
+		</message>
+		<message>
+			<source>Restore password</source>
+			<translation>Restaurați parola</translation>
+		</message>
+		<message>
+			<source>Send confirmation code</source>
+			<translation>Trimite codul de confirmare</translation>
+		</message>
+		<message>
+			<source>Confirmation code</source>
+			<translation>Cod de confirmare</translation>
+		</message>
+		<message>
+			<source>Resend code</source>
+			<translation>Retrimiteți codul</translation>
+		</message>
+		<message>
+			<source>Change password</source>
+			<translation>Schimbaţi parola</translation>
+		</message>
+		<message>
+			<source>Update password</source>
+			<translation>Actualizați parola</translation>
+		</message>
+		<message>
+			<source>You have recently tried to reset this user's password. Please try again later.</source>
+			<translation>Ați încercat recent să resetați parola acestui utilizator. Vă rugăm să încercați din nou mai târziu.</translation>
+		</message>
+		<message>
+			<source>Account does not exist.</source>
+			<translation>Contul nu există.</translation>
+		</message>
+		<message>
+			<source>Session is expired.</source>
+			<translation>Sesiunea a expirat.</translation>
+		</message>
+		<message>
+			<source>A confirmation code was sent recently. Try again later.</source>
+			<translation>Un cod de confirmare a fost trimis recent. Încercați din nou mai târziu.</translation>
+		</message>
+		<message>
+			<source>Password is too weak.</source>
+			<translation>Parola este prea slabă.</translation>
+		</message>
+		<message>
+			<source>Confirmation code is invalid.</source>
+			<translation>Codul de confirmare este nevalid.</translation>
+		</message>
 	</context>
 </language>
 
