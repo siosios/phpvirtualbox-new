@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * This class is needed to send notifications when any events are triggered.
+ * The logic for sending notifications is developed independently by everyone.
+ */
+
+class NotificationHelper
+{
+    public static function onPasswordSendConfirmationCode(string $username, string $code, int $expires) {
+        
+    }
+}
