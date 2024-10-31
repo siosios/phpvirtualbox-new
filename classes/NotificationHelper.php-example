@@ -5,7 +5,9 @@
  * The logic for sending notifications is developed independently by everyone.
  */
 
-class NotificationHelper
+require_once 'NotificationHelperBase.php';
+
+class NotificationHelper extends NotificationHelperBase
 {
     public static function onPasswordSendConfirmationCode(string $username, string $code, int $expires) {
         
