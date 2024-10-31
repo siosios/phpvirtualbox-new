@@ -11,6 +11,11 @@ session_init(true);
 if (file_exists("classes/NotificationHelper.php-example") && !file_exists("classes/NotificationHelper.php-example")) {
     die("NotificationHelper is disabled. Please, open <b><code>classes</code></b> folder and copy <b><code>NotificationHelper.php-example</code></b> as <b><code>NotificationHelper.php</code></b>");
 }
+
+$settings = new phpVBoxConfigClass();
+$grePublicKey = $settings->googleRecaptchaPublicKey ?? '';
+$greSecretKey = $settings->googleRecaptchaSecretKey ?? '';
+$greEnabled = $grePublicKey && $greSecretKey;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" >
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -61,10 +66,36 @@ if (file_exists("classes/NotificationHelper.php-example") && !file_exists("class
 	<script type="text/javascript" src="js/dialogs.js"></script>
 	<script type="text/javascript" src="js/canvasimages.js"></script>
 
-
+    <?php
+    if ($greEnabled):
+    ?>
+    <!-- Google reCaptcha v3 -->
+    <script src="https://www.google.com/recaptcha/api.js?render=<?php echo $grePublicKey; ?>"></script>
+    <?php endif; ?>
 	<!-- Main Setup -->
 	<script type='text/javascript'>
-	
+        <?php
+        if ($greEnabled):
+        ?>
+        window.__GREPUBLICKEY = "<?php echo $grePublicKey; ?>";
+        <?php endif; ?>
+        window.greForm = function(callback) {
+            <?php if ($greEnabled): ?>
+            if (typeof grecaptcha != 'undefined') {
+                grecaptcha.ready(function () {
+                    grecaptcha.execute(window.__GREPUBLICKEY, { action: 'submit' }).then(function(token) {
+                        if (token) {
+                            callback(token);
+                        }
+                    })
+                });
+            } else {
+                alert('Google reCaptcha is not loaded!');
+            }
+            <?php else: ?>
+            callback('');
+            <?php endif; ?>
+        };
 		$(document).ready(function(){
 
 			/* Synchronously load requirements */
@@ -408,18 +439,19 @@ if (file_exists("classes/NotificationHelper.php-example") && !file_exists("class
 
 				var buttons = {};
 				buttons[trans('Log in','UIUsers')] = function() {
-					
-					// Login button triggers login attempt
-					var u = $('#vboxLogin').find('input[name=username]').val();
-					var p = $('#vboxLogin').find('input[name=password]').val();
-					if(!(u&&p)) return;
-					$('#vboxLogin').dialog('close');
-					
-					// A valid login should create a valid session
-					var trylogin = new vboxLoader();
-					trylogin.add('login',function(d){$('#vboxPane').data('vboxSession',$.extend({'success':d.success},d.responseData));},{'u':u,'p':p});
-					trylogin.onLoad = function() { vboxCheckSession(true);};
-					trylogin.run();
+					greForm(function(token) {
+                        // Login button triggers login attempt
+                        var u = $('#vboxLogin').find('input[name=username]').val();
+                        var p = $('#vboxLogin').find('input[name=password]').val();
+                        if(!(u&&p)) return;
+                        $('#vboxLogin').dialog('close');
+
+                        // A valid login should create a valid session
+                        var trylogin = new vboxLoader();
+                        trylogin.add('login',function(d){$('#vboxPane').data('vboxSession',$.extend({'success':d.success},d.responseData));},{'u':u,'p':p,'gretoken':token});
+                        trylogin.onLoad = function() { vboxCheckSession(true);};
+                        trylogin.run();
+                    });
 				};
 				
 				// Create but do not open dialog

@@ -28,6 +28,7 @@ require_once(dirname(__FILE__).'/lib/config.php');
 require_once(dirname(__FILE__).'/lib/utils.php');
 require_once(dirname(__FILE__).'/lib/vboxconnector.php');
 require_once(dirname(__FILE__).'/../classes/IpHelper.php');
+require_once(dirname(__FILE__).'/../classes/GoogleReCaptchaV3.php');
 
 // Init session
 global $_SESSION;
@@ -114,6 +115,7 @@ try {
                 break;
             }
             $username = $request['params']['u'];
+            $gretoken = $request['params']['gretoken'] ?? '';
             $_SESSION['valid'] = true;
             $settings = new phpVBoxConfigClass();
             if (!$settings->enablePasswordReset) {
@@ -123,6 +125,14 @@ try {
 
             if ($pathToDatabase === null) {
                 throw new Exception('Path to database is not specified');
+            }
+
+            if ($settings->googleRecaptchaPublicKey && $settings->googleRecaptchaSecretKey) {
+                $gre = new GoogleReCaptchaV3($settings->googleRecaptchaSecretKey, $gretoken);
+                if (!$gre->validate()) {
+                    $response['data']['error'] = "Google reCaptcha v3 validation failed.";
+                    break;
+                }
             }
 
             $allUsers = $settings->auth->listUsers();
@@ -166,6 +176,7 @@ try {
                 break;
             }
             $username = $request['params']['u'];
+            $gretoken = $request['params']['gretoken'] ?? '';
             $_SESSION['valid'] = true;
             $settings = new phpVBoxConfigClass();
             if (!$settings->enablePasswordReset) {
@@ -175,6 +186,14 @@ try {
 
             if ($pathToDatabase === null) {
                 throw new Exception('Path to database is not specified');
+            }
+
+            if ($settings->googleRecaptchaPublicKey && $settings->googleRecaptchaSecretKey) {
+                $gre = new GoogleReCaptchaV3($settings->googleRecaptchaSecretKey, $gretoken);
+                if (!$gre->validate()) {
+                    $response['data']['error'] = "Google reCaptcha v3 validation failed.";
+                    break;
+                }
             }
 
             $allUsers = $settings->auth->listUsers();
@@ -223,6 +242,7 @@ try {
             if (!$request['params']['u'] || !$request['params']['c']) {
                 break;
             }
+            $gretoken = $request['params']['gretoken'] ?? '';
             $username = $request['params']['u'];
             $code = $request['params']['c'];
             $password = $request['params']['p'];
@@ -240,6 +260,14 @@ try {
 
             if ($pathToDatabase === null) {
                 throw new Exception('Path to database is not specified');
+            }
+
+            if ($settings->googleRecaptchaPublicKey && $settings->googleRecaptchaSecretKey) {
+                $gre = new GoogleReCaptchaV3($settings->googleRecaptchaSecretKey, $gretoken);
+                if (!$gre->validate()) {
+                    $response['data']['error'] = "Google reCaptcha v3 validation failed.";
+                    break;
+                }
             }
 
             $allUsers = $settings->auth->listUsers();
@@ -305,6 +333,15 @@ try {
 			session_init(true);
 
 			$settings = new phpVBoxConfigClass();
+            $gretoken = $request['params']['gretoken'] ?? '';
+
+            if ($settings->googleRecaptchaPublicKey && $settings->googleRecaptchaSecretKey) {
+                $gre = new GoogleReCaptchaV3($settings->googleRecaptchaSecretKey, $gretoken);
+                if (!$gre->validate()) {
+                    $response['errors'][] = "Google reCaptcha v3 validation failed.";
+                    break;
+                }
+            }
 
 			if (strtolower($request['params']['u']) == 'admin' && isset($settings->admin_allowed_ips) && count($settings->admin_allowed_ips) > 0) {
 				$source_ip = $_SERVER['REMOTE_ADDR'];
@@ -320,7 +357,7 @@ try {
 				}
 
 				if (!$match_at_least_one) {
-					throw new Exception("Logging in into 'admin' is not allowed from this IP address!");
+                    $response['errors'][] = "Logging in into 'admin' is not allowed from this IP address!";
 				}
 			}
 
