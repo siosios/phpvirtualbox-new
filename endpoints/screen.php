@@ -49,6 +49,27 @@ try {
 	}
 
 	$machine = $vbox->vbox->findMachine($_REQUEST['vm']);
+
+    if($settings->phpVboxGroups) {
+        $groups = explode(',',$machine->getExtraData(vboxconnector::phpVboxGroupKey));
+        if(!is_array($groups) || (count($groups) == 1 && !$groups[0])) $groups = array("/");
+    } else {
+        $groups = $machine->groups;
+    }
+
+    $newGroups = $groups;
+    if ($settings->replaceSpacesToMail) {
+        $newGroups = [];
+        foreach ($groups as $group) {
+            $newGroups[] = str_replace(" ", "@", $group);
+        }
+    }
+
+    if (!$_SESSION['admin'] && !in_array('/'.$_SESSION['user'], $newGroups)) {
+        header("Content-type: image/png");
+        echo file_get_contents('../images/screennoaccess.png');
+        exit;
+    }
 	
 	// Is snapshot specified?
 	if($_REQUEST['snapshot']) {
@@ -79,8 +100,6 @@ try {
 	header("Last-Modified: " . gmdate("D, d M Y H:i:s", $dlm) . " GMT");
 
 	$_REQUEST['vm'] = $machine->id;
-
-
 
 	// Take active screenshot if machine is running
 	if(!$_REQUEST['snapshot'] && $machine->state->__toString() == 'Running') {
