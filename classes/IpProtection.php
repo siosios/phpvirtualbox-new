@@ -120,13 +120,13 @@ final class IpProtection
         $dbCode = SQLite3::escapeString($code);
 
         $row = $this->db->query("SELECT * FROM addresses WHERE username='$dbUsername' AND code='$dbCode'")->fetchArray();
-        /*if (!$row) {
-            return self::RESULT_INVALID_LINK; // it's not really useful
-        }*/
-        $ip = IpHelper::getRemoteIp();
-        if ($row['address'] != $ip) {
-            return self::RESULT_IP_MISMATCH;
+        if (!$row) {
+            return self::RESULT_INVALID_LINK;
         }
+        $ip = IpHelper::getRemoteIp();
+        /*if ($row['address'] != $ip) {
+            return self::RESULT_IP_MISMATCH; // it's not really useful
+        }*/
         $time = time();
         $ip = SQLite3::escapeString($ip);
         $this->db->exec("UPDATE addresses SET
