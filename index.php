@@ -81,10 +81,12 @@ $greEnabled = $grePublicKey && $greSecretKey;
         <?php endif; ?>
         window.greForm = function(callback) {
             <?php if ($greEnabled): ?>
+            $('#uiBlocker').css({display: 'flex'});
             if (typeof grecaptcha != 'undefined') {
                 grecaptcha.ready(function () {
                     grecaptcha.execute(window.__GREPUBLICKEY, { action: 'submit' }).then(function(token) {
                         if (token) {
+                            $('#uiBlocker').css({display: 'none'});
                             callback(token);
                         }
                     })
@@ -408,24 +410,35 @@ $greEnabled = $grePublicKey && $greSecretKey;
 					
 					// Session is valid, trigger login
 					$('#vboxPane').trigger('login');
+                    $('#vboxLogin').dialog('close');
 					return;
 				}
 				
 				// Was there an error? Assume it was displayed and just return from function
-				if($('#vboxPane').data('vboxSession') && !$('#vboxPane').data('vboxSession').success) {
+				/*if($('#vboxPane').data('vboxSession') && !$('#vboxPane').data('vboxSession').success) {
 					return;
-				}
-				
+				}*/
+
+                var showAlert = true;
+                if (!($('#vboxPane').data('vboxSession') && !$('#vboxPane').data('vboxSession').success)) {
+                    $('#vboxLogin').find('input[name=password]').val('');
+                } else {
+                    showAlert = false;
+                }
 
 				// No valid session. Show login pane
-				$('#vboxLogin').find('input[name=password]').val('');
-				$('#vboxLogin').dialog('open');
-				
+                if (!tried) {
+                    $('#vboxLogin').dialog('open');
+                } else {
+                    $('#vboxLogin').parent().show();
+                }
+
+
 				if(!$('#vboxLogin').find('input[name=username]').val()) $('#vboxLogin').find('input[name=username]').focus();
 				else $('#vboxLogin').find('input[name=password]').focus();
 				
 				// Display error if we tried to log in
-				if(tried) {
+				if(tried && showAlert) {
 					vboxAlert(trans('Invalid username or password.','UIUsers'),{'width':'400px'});
 				}
 				
@@ -444,11 +457,13 @@ $greEnabled = $grePublicKey && $greSecretKey;
                         var u = $('#vboxLogin').find('input[name=username]').val();
                         var p = $('#vboxLogin').find('input[name=password]').val();
                         if(!(u&&p)) return;
-                        $('#vboxLogin').dialog('close');
+                        $('#vboxLogin').parent().hide();
 
                         // A valid login should create a valid session
                         var trylogin = new vboxLoader();
-                        trylogin.add('login',function(d){$('#vboxPane').data('vboxSession',$.extend({'success':d.success},d.responseData));},{'u':u,'p':p,'gretoken':token});
+                        trylogin.add('login', function(d) {
+                            $('#vboxPane').data('vboxSession',$.extend({'success':d.success},d.responseData));
+                        }, {'u':u,'p':p,'gretoken':token});
                         trylogin.onLoad = function() { vboxCheckSession(true);};
                         trylogin.run();
                     });
@@ -475,6 +490,9 @@ $greEnabled = $grePublicKey && $greSecretKey;
 	</script>
 
 </head>
+<div id="uiBlocker" style="display: none; align-items:center; justify-content: center; width: 100%; height: 100%; overflow: hidden; z-index: 9999; position: absolute; background-color: black; opacity: 0.5;">
+    <img style="width: 15%;" src="images/spinner_big.gif">
+</div>
 <body>
 <div id='vboxPane' style='height: 100%; margin: 0px; padding: 0px;'>
 <table id='vboxTableMain' cellpadding=0 cellspacing=0 style="height: 100%; width: 100%; padding: 0px; margin: 0px; border: 0px; border-spacing: 0px;">

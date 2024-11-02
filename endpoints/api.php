@@ -27,8 +27,8 @@ header("Pragma: no-cache");
 require_once(dirname(__FILE__).'/lib/config.php');
 require_once(dirname(__FILE__).'/lib/utils.php');
 require_once(dirname(__FILE__).'/lib/vboxconnector.php');
-require_once(dirname(__FILE__).'/../classes/IpHelper.php');
 require_once(dirname(__FILE__).'/../classes/GoogleReCaptchaV3.php');
+require_once(dirname(__FILE__).'/../classes/IpProtection.php');
 
 // Init session
 global $_SESSION;
@@ -358,12 +358,21 @@ try {
 
 				if (!$match_at_least_one) {
                     $response['errors'][] = "Logging in into 'admin' is not allowed from this IP address!";
+                    break;
 				}
 			}
 
 			// Try / catch here to hide login credentials
 			try {
 				$settings->auth->login($request['params']['u'], $request['params']['p']);
+                $ipp = IpProtection::getInstance();
+                if ($request['params']['u'] != 'admin' && isset($_SESSION['valid']) && $_SESSION['valid'] && !$ipp->canLogin($request['params']['u'])) {
+                    foreach ($_SESSION as $key => $value) {
+                        unset($_SESSION[$key]);
+                    }
+                    $response['errors'][] = "You are attempting to log in to your account from a new IP address. You have been sent a login confirmation message.";
+                    break;
+                }
 			} catch(Exception $e) {
 				throw new Exception($e->getMessage(), $e->getCode());
 			}

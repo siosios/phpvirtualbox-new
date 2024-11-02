@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/../endpoints/lib/config.php';
+
 class IpHelper
 {
     const CLOUDFLARE_CIDRS = [
@@ -19,6 +21,8 @@ class IpHelper
         "172.64.0.0/13",
         "131.0.72.0/22"
     ];
+
+    private static $settings = null;
 
     public static function checkIpMatch(string $ip, string $cidr) : bool
     {
@@ -134,6 +138,19 @@ class IpHelper
             }
         }
         return false;
+    }
+
+    public static function getRemoteIp() : string
+    {
+        if (self::$settings === null) {
+            self::$settings = new phpVBoxConfigClass();
+        }
+        $source_ip = $_SERVER["REMOTE_ADDR"];
+        if (self::$settings->check_cloudflare_ips && IpHelper::isCloudFlareAddress($source_ip)) {
+            $source_ip = $_SERVER["HTTP_CF_CONNECTING_IP"] ?? $_SERVER["REMOTE_ADDR"];
+        }
+
+        return $source_ip;
     }
 
     private static function validateOctet(string $octet) : bool

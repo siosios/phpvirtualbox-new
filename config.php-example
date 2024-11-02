@@ -57,6 +57,14 @@ var $passwordResetSessionsFile = '/path/to/database.db';
 var $googleRecaptchaPublicKey = '';
 var $googleRecaptchaSecretKey = '';
 
+/*
+ * Enabling this option will force all users to confirm login to the account from a new IP address.
+    Specify the path to the file to store saved IP addresses
+    Sending messages should be implemented in the NotificationHelper->onIpConfirmation method
+    Leave this field blank if you do not want to enable this feature
+ */
+var $pathToIpProtectionDatabase = '';
+
 /* SOAP URL of vboxwebsrv (not phpVirtualBox's URL) */
 var $location = 'http://127.0.0.1:18083/';
 

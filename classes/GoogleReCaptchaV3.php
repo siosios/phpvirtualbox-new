@@ -19,11 +19,7 @@ class GoogleReCaptchaV3
      * @return bool
      */
     public function validate() {
-        $settings = new phpVBoxConfigClass();
-        $source_ip = $_SERVER["REMOTE_ADDR"];
-        if ($settings->check_cloudflare_ips && IpHelper::isCloudFlareAddress($source_ip)) {
-            $source_ip = $_SERVER["HTTP_CF_CONNECTING_IP"] ?? $_SERVER["REMOTE_ADDR"];
-        }
+        $source_ip = IpHelper::getRemoteIp();
 
         $url = "https://www.google.com/recaptcha/api/siteverify?secret=" . $this->secretKey . "&response=" . $this->clientResponse . "&remoteip=$source_ip";
         $response = @file_get_contents($url);

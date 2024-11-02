@@ -373,5 +373,12 @@
 			<translation>El código de confirmación no es válido.</translation>
 		</message>
 	</context>
+	<context>
+		<name>UITranslatableCommonErrors</name>
+		<message>
+			<source>You are attempting to log in to your account from a new IP address. You have been sent a login confirmation message.</source>
+			<translation>Estás intentando iniciar sesión en tu cuenta desde una nueva dirección IP. Se te ha enviado un mensaje de confirmación de inicio de sesión.</translation>
+		</message>
+	</context>
 </language>
 
