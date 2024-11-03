@@ -133,7 +133,7 @@ final class IpProtection
             code='',
             adstate=" . self::STATE_CONFIRMED . ",
             lastupdate=$time
-        WHERE username='$dbUsername' AND address='$ip'
+        WHERE username='$dbUsername' AND code='$dbCode'
         ");
         return self::RESULT_APPROVED;
     }
