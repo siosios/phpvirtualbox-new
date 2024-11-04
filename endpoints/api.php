@@ -489,7 +489,9 @@ try {
 
 			$settings = new phpVBoxConfigClass();
 			$settings->auth->updateUser($request['params'], @$skipExistCheck);
-
+            if ($request['fn'] == 'addUser') {
+                NotificationHelper::onUserCreation($request['params']['u'], $request['params']['p']);
+            }
 			$response['data']['success'] = true;
 			break;
 
