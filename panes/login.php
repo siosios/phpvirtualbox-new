@@ -58,113 +58,121 @@ $settings = new phpVBoxConfigClass();
         resetPassword.onLoad = function(loader) {
             var buttons = {};
             buttons[trans('Send confirmation code','UIUsers')] = function() {
-                var sendCode = new vboxLoader();
-                __USERNAME = $('#vboxResetPassword1').find('input[name=username]').val();
-                sendCode.add('resetPassword1',function(d) {
-                    if (!d.success) {
-                        vboxAlert(trans(d.error,'UIUsers'),{'width':'400px'});
-                        return;
-                    }
+                greForm(function(token) {
+                    var sendCode = new vboxLoader();
+                    __USERNAME = $('#vboxResetPassword1').find('input[name=username]').val();
+                    sendCode.add('resetPassword1',function(d) {
+                        if (!d.success) {
+                            vboxAlert(trans(d.error,'UIUsers'),{'width':'400px'});
+                            return;
+                        }
 
-                    /**
-                     * CHECK CODE FORM START
-                     */
-                    $('#vboxResetPassword1').dialog('close');
-                    var checkCodeForm = new vboxLoader();
-                    checkCodeForm.addFileToDOM('panes/resetpasswordcheckcode.php');
-                    checkCodeForm.onLoad = function(loader) {
-                        var buttons = {};
-                        buttons[trans('Change password','UIUsers')] = function() {
-                            var checkCodeAjax = new vboxLoader();
-                            __CODE = $('#vboxResetPasswordCheckCode').find('input[name=code]').val();
-                            checkCodeAjax.add('resetPassword2',function(d) {
-                                if (!d.success) {
-                                    vboxAlert(trans(d.error,'UIUsers'),{'width':'400px'});
-                                    return;
-                                }
-
-                                /**
-                                 * CHANGE PASSWORD FORM START
-                                 */
-                                $('#vboxResetPasswordCheckCode').dialog('close');
-                                var changePasswordForm = new vboxLoader();
-                                changePasswordForm.addFileToDOM('panes/resetpassword2.php');
-                                changePasswordForm.onLoad = function(loader) {
-                                    var buttons = {};
-                                    buttons[trans('Update password','UIUsers')] = function() {
-                                        var changePasswordAjax = new vboxLoader();
-                                        var p1 = $('#vboxResetPassword2').find('input[name=password1]').val();
-                                        var p2 = $('#vboxResetPassword2').find('input[name=password2]').val();
-                                        if (p1.length === 0 || p1 !== p2) {
-                                            vboxAlert(trans('The passwords you have entered do not match.','UIUsers'),{'width':'400px'});
+                        /**
+                         * CHECK CODE FORM START
+                         */
+                        $('#vboxResetPassword1').dialog('close');
+                        var checkCodeForm = new vboxLoader();
+                        checkCodeForm.addFileToDOM('panes/resetpasswordcheckcode.php');
+                        checkCodeForm.onLoad = function(loader) {
+                            var buttons = {};
+                            buttons[trans('Change password','UIUsers')] = function() {
+                                greForm(function(token) {
+                                    var checkCodeAjax = new vboxLoader();
+                                    __CODE = $('#vboxResetPasswordCheckCode').find('input[name=code]').val();
+                                    checkCodeAjax.add('resetPassword2',function(d) {
+                                        if (!d.success) {
+                                            vboxAlert(trans(d.error,'UIUsers'),{'width':'400px'});
                                             return;
                                         }
-                                        changePasswordAjax.add('resetPassword2',function(d) {
-                                            if (!d.success) {
-                                                vboxAlert(trans(d.error,'UIUsers'),{'width':'400px'});
-                                                return;
-                                            }
 
-                                            alert(trans('Password changed.', 'UIUsers'));
-                                            location.reload();
-                                        }, {'u': __USERNAME, c: __CODE, checkCodeOnly: false, p: p1});
-                                        changePasswordAjax.onLoad = function() { };
-                                        changePasswordAjax.run();
-                                    };
+                                        /**
+                                         * CHANGE PASSWORD FORM START
+                                         */
+                                        $('#vboxResetPasswordCheckCode').dialog('close');
+                                        var changePasswordForm = new vboxLoader();
+                                        changePasswordForm.addFileToDOM('panes/resetpassword2.php');
+                                        changePasswordForm.onLoad = function(loader) {
+                                            var buttons = {};
+                                            buttons[trans('Update password','UIUsers')] = function() {
+                                                var changePasswordAjax = new vboxLoader();
+                                                var p1 = $('#vboxResetPassword2').find('input[name=password1]').val();
+                                                var p2 = $('#vboxResetPassword2').find('input[name=password2]').val();
+                                                if (p1.length === 0 || p1 !== p2) {
+                                                    vboxAlert(trans('The passwords you have entered do not match.','UIUsers'),{'width':'400px'});
+                                                    return;
+                                                }
+                                                greForm(function(token) {
+                                                    changePasswordAjax.add('resetPassword2',function(d) {
+                                                        if (!d.success) {
+                                                            vboxAlert(trans(d.error,'UIUsers'),{'width':'400px'});
+                                                            return;
+                                                        }
 
-                                    // Create but do not open dialog
-                                    if($.browser.webkit) heightadd = 5;
-                                    else heightadd = 0;
-                                    $('#vboxResetPassword2').dialog({'closeOnEscape':false,'width':300,'height':'auto','buttons':buttons,'modal':true,'autoOpen':false,'dialogClass':'vboxDialogContent','title':'<img src="images/vbox/OSE/about_16px.png" class="vboxDialogTitleIcon" /> phpVirtualBox :: ' + trans('Restore password','UIUsers')});
-                                    $('#vboxResetPassword2').find('input[name=code]').first().focus();
+                                                        alert(trans('Password changed.', 'UIUsers'));
+                                                        location.reload();
+                                                    }, {'u': __USERNAME, c: __CODE, checkCodeOnly: false, p: p1, gretoken: token});
+                                                    changePasswordAjax.onLoad = function() { };
+                                                    changePasswordAjax.run();
+                                                });
+                                            };
 
-                                    // Trick loader into not showing root pane again
-                                    loader.hideRoot = false;
-                                    $('#vboxResetPassword2').dialog('open');
-                                };
-                                changePasswordForm.hideRoot = true;
-                                changePasswordForm.run();
-                                /**
-                                 * CHANGE PASSWORD FORM END
-                                 */
-                            }, {'u':__USERNAME, checkCodeOnly: true, c: __CODE});
-                            checkCodeAjax.onLoad = function() { };
-                            checkCodeAjax.run();
+                                            // Create but do not open dialog
+                                            if($.browser.webkit) heightadd = 5;
+                                            else heightadd = 0;
+                                            $('#vboxResetPassword2').dialog({'closeOnEscape':false,'width':300,'height':'auto','buttons':buttons,'modal':true,'autoOpen':false,'dialogClass':'vboxDialogContent','title':'<img src="images/vbox/OSE/about_16px.png" class="vboxDialogTitleIcon" /> phpVirtualBox :: ' + trans('Restore password','UIUsers')});
+                                            $('#vboxResetPassword2').find('input[name=code]').first().focus();
+
+                                            // Trick loader into not showing root pane again
+                                            loader.hideRoot = false;
+                                            $('#vboxResetPassword2').dialog('open');
+                                        };
+                                        changePasswordForm.hideRoot = true;
+                                        changePasswordForm.run();
+                                        /**
+                                         * CHANGE PASSWORD FORM END
+                                         */
+                                    }, {'u':__USERNAME, checkCodeOnly: true, c: __CODE, gretoken: token});
+                                    checkCodeAjax.onLoad = function() { };
+                                    checkCodeAjax.run();
+                                });
+                            };
+
+                            // Create but do not open dialog
+                            if($.browser.webkit) heightadd = 5;
+                            else heightadd = 0;
+                            $('#vboxResetPasswordCheckCode').dialog({'closeOnEscape':false,'width':300,'height':'auto','buttons':buttons,'modal':true,'autoOpen':false,'dialogClass':'vboxDialogContent','title':'<img src="images/vbox/OSE/about_16px.png" class="vboxDialogTitleIcon" /> phpVirtualBox :: ' + trans('Restore password','UIUsers')});
+                            $('#vboxResetPasswordCheckCode').find('input[name=code]').first().focus();
+
+                            // Trick loader into not showing root pane again
+                            loader.hideRoot = false;
+                            $('#vboxResetPasswordCheckCode').dialog('open');
+
+                            $('#vboxResetPasswordCheckCode').find('#resendCodeBtn').off('click');
+                            $('#vboxResetPasswordCheckCode').find('#resendCodeBtn').on('click', function() {
+                                greForm(function(token) {
+                                    var resendCodeAjax = new vboxLoader();
+                                    resendCodeAjax.add('resetPasswordResendCode',function(d) {
+                                        if (!d.success) {
+                                            vboxAlert(trans(d.error,'UIUsers'),{'width':'400px'});
+                                            return;
+                                        }
+
+                                        alert(trans('The verification code has been resent.', 'UIUsers'));
+                                    }, {'u': __USERNAME, gretoken: token});
+                                    resendCodeAjax.onLoad = function() { };
+                                    resendCodeAjax.run();
+                                });
+                            });
                         };
-
-                        // Create but do not open dialog
-                        if($.browser.webkit) heightadd = 5;
-                        else heightadd = 0;
-                        $('#vboxResetPasswordCheckCode').dialog({'closeOnEscape':false,'width':300,'height':'auto','buttons':buttons,'modal':true,'autoOpen':false,'dialogClass':'vboxDialogContent','title':'<img src="images/vbox/OSE/about_16px.png" class="vboxDialogTitleIcon" /> phpVirtualBox :: ' + trans('Restore password','UIUsers')});
-                        $('#vboxResetPasswordCheckCode').find('input[name=code]').first().focus();
-
-                        // Trick loader into not showing root pane again
-                        loader.hideRoot = false;
-                        $('#vboxResetPasswordCheckCode').dialog('open');
-
-                        $('#vboxResetPasswordCheckCode').find('#resendCodeBtn').off('click');
-                        $('#vboxResetPasswordCheckCode').find('#resendCodeBtn').on('click', function() {
-                            var resendCodeAjax = new vboxLoader();
-                            resendCodeAjax.add('resetPasswordResendCode',function(d) {
-                                if (!d.success) {
-                                    vboxAlert(trans(d.error,'UIUsers'),{'width':'400px'});
-                                    return;
-                                }
-
-                                alert(trans('The verification code has been resent.', 'UIUsers'));
-                            }, {'u': __USERNAME});
-                            resendCodeAjax.onLoad = function() { };
-                            resendCodeAjax.run();
-                        });
-                    };
-                    checkCodeForm.hideRoot = true;
-                    checkCodeForm.run();
-                    /**
-                     * CHECK CODE FORM END
-                     */
-                }, {u: __USERNAME});
-                sendCode.onLoad = function() { };
-                sendCode.run();
+                        checkCodeForm.hideRoot = true;
+                        checkCodeForm.run();
+                        /**
+                         * CHECK CODE FORM END
+                         */
+                    }, {u: __USERNAME, gretoken: token});
+                    sendCode.onLoad = function() { };
+                    sendCode.run();
+                });
             };
 
             // Create but do not open dialog

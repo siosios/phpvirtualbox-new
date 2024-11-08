@@ -374,6 +374,13 @@
 		</message>
 	</context>
 	<context>
+		<name>UITranslatableCommonErrors</name>
+		<message>
+			<source>You are attempting to log in to your account from a new IP address. You have been sent a login confirmation message.</source>
+			<translation>Sie versuchen, sich von einer neuen IP-Adresse aus bei Ihrem Konto anzumelden. Ihnen wurde eine Anmeldebestätigungsnachricht gesendet.</translation>
+		</message>
+	</context>
+	<context>
 		<name>UIApprovedIpAddresses</name>
 		<message>
 			<source>Approved IP Addresses</source>

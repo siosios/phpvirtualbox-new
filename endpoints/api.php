@@ -27,7 +27,8 @@ header("Pragma: no-cache");
 require_once(dirname(__FILE__).'/lib/config.php');
 require_once(dirname(__FILE__).'/lib/utils.php');
 require_once(dirname(__FILE__).'/lib/vboxconnector.php');
-require_once(dirname(__FILE__).'/../classes/IpHelper.php');
+require_once(dirname(__FILE__).'/../classes/GoogleReCaptchaV3.php');
+require_once(dirname(__FILE__).'/../classes/IpProtection.php');
 
 // Init session
 global $_SESSION;
@@ -114,6 +115,7 @@ try {
                 break;
             }
             $username = $request['params']['u'];
+            $gretoken = $request['params']['gretoken'] ?? '';
             $_SESSION['valid'] = true;
             $settings = new phpVBoxConfigClass();
             if (!$settings->enablePasswordReset) {
@@ -123,6 +125,14 @@ try {
 
             if ($pathToDatabase === null) {
                 throw new Exception('Path to database is not specified');
+            }
+
+            if ($settings->googleRecaptchaPublicKey && $settings->googleRecaptchaSecretKey) {
+                $gre = new GoogleReCaptchaV3($settings->googleRecaptchaSecretKey, $gretoken);
+                if (!$gre->validate()) {
+                    $response['data']['error'] = "Google reCaptcha v3 validation failed.";
+                    break;
+                }
             }
 
             $allUsers = $settings->auth->listUsers();
@@ -166,6 +176,7 @@ try {
                 break;
             }
             $username = $request['params']['u'];
+            $gretoken = $request['params']['gretoken'] ?? '';
             $_SESSION['valid'] = true;
             $settings = new phpVBoxConfigClass();
             if (!$settings->enablePasswordReset) {
@@ -175,6 +186,14 @@ try {
 
             if ($pathToDatabase === null) {
                 throw new Exception('Path to database is not specified');
+            }
+
+            if ($settings->googleRecaptchaPublicKey && $settings->googleRecaptchaSecretKey) {
+                $gre = new GoogleReCaptchaV3($settings->googleRecaptchaSecretKey, $gretoken);
+                if (!$gre->validate()) {
+                    $response['data']['error'] = "Google reCaptcha v3 validation failed.";
+                    break;
+                }
             }
 
             $allUsers = $settings->auth->listUsers();
@@ -223,6 +242,7 @@ try {
             if (!$request['params']['u'] || !$request['params']['c']) {
                 break;
             }
+            $gretoken = $request['params']['gretoken'] ?? '';
             $username = $request['params']['u'];
             $code = $request['params']['c'];
             $password = $request['params']['p'];
@@ -240,6 +260,14 @@ try {
 
             if ($pathToDatabase === null) {
                 throw new Exception('Path to database is not specified');
+            }
+
+            if ($settings->googleRecaptchaPublicKey && $settings->googleRecaptchaSecretKey) {
+                $gre = new GoogleReCaptchaV3($settings->googleRecaptchaSecretKey, $gretoken);
+                if (!$gre->validate()) {
+                    $response['data']['error'] = "Google reCaptcha v3 validation failed.";
+                    break;
+                }
             }
 
             $allUsers = $settings->auth->listUsers();
@@ -313,6 +341,15 @@ try {
 			session_init(true);
 
 			$settings = new phpVBoxConfigClass();
+            $gretoken = $request['params']['gretoken'] ?? '';
+
+            if ($settings->googleRecaptchaPublicKey && $settings->googleRecaptchaSecretKey) {
+                $gre = new GoogleReCaptchaV3($settings->googleRecaptchaSecretKey, $gretoken);
+                if (!$gre->validate()) {
+                    $response['errors'][] = "Google reCaptcha v3 validation failed.";
+                    break;
+                }
+            }
 
 			if (strtolower($request['params']['u']) == 'admin' && isset($settings->admin_allowed_ips) && count($settings->admin_allowed_ips) > 0) {
 				$source_ip = $_SERVER['REMOTE_ADDR'];
@@ -328,13 +365,22 @@ try {
 				}
 
 				if (!$match_at_least_one) {
-					throw new Exception("Logging in into 'admin' is not allowed from this IP address!");
+                    $response['errors'][] = "Logging in into 'admin' is not allowed from this IP address!";
+                    break;
 				}
 			}
 
 			// Try / catch here to hide login credentials
 			try {
 				$settings->auth->login($request['params']['u'], $request['params']['p']);
+                $ipp = IpProtection::getInstance();
+                if ($request['params']['u'] != 'admin' && isset($_SESSION['valid']) && $_SESSION['valid'] && !$ipp->canLogin($request['params']['u'])) {
+                    foreach ($_SESSION as $key => $value) {
+                        unset($_SESSION[$key]);
+                    }
+                    $response['errors'][] = "You are attempting to log in to your account from a new IP address. You have been sent a login confirmation message.";
+                    break;
+                }
 			} catch(Exception $e) {
 				throw new Exception($e->getMessage(), $e->getCode());
 			}
@@ -451,7 +497,9 @@ try {
 
 			$settings = new phpVBoxConfigClass();
 			$settings->auth->updateUser($request['params'], @$skipExistCheck);
-
+            if ($request['fn'] == 'addUser') {
+                NotificationHelper::onUserCreation($request['params']['u'], $request['params']['p']);
+            }
 			$response['data']['success'] = true;
 			break;
 

@@ -1,13 +1,6 @@
 <?php
 
-/**
- * This class is needed to send notifications when any events are triggered.
- * The logic for sending notifications is developed independently by everyone.
- */
-
-require_once 'NotificationHelperBase.php';
-
-class NotificationHelper extends NotificationHelperBase
+class NotificationHelperBase
 {
     /**
      * Password Reset Event Handler
@@ -31,7 +24,7 @@ class NotificationHelper extends NotificationHelperBase
      * @return void
      */
     public static function onIpConfirmation(string $username, string $code, string $fullUri, string $ipAddress) {
-
+        
     }
 
     /**
