@@ -72,7 +72,7 @@ var menu = {
 <?php if($settings->pathToIpProtectionDatabase): ?>
 menu.menu.push({
     name: 'approvedIpAddresses',
-    label: 'Approved IP addresses...',
+    label: trans('Approved IP Addresses','UIApprovedIpAddresses'),
     icon: 'nw',
     click: function() {
         var l = new vboxLoader();
