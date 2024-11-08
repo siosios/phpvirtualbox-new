@@ -380,5 +380,40 @@
 			<translation>Sie versuchen, sich von einer neuen IP-Adresse aus bei Ihrem Konto anzumelden. Ihnen wurde eine Anmeldebestätigungsnachricht gesendet.</translation>
 		</message>
 	</context>
+	<context>
+		<name>UIApprovedIpAddresses</name>
+		<message>
+			<source>Approved IP Addresses</source>
+			<translation>Genehmigte IP-Adressen</translation>
+		</message>
+		<message>
+			<source>IP address</source>
+			<translation>IP-Adresse</translation>
+		</message>
+		<message>
+			<source>It is you</source>
+			<translation>Das bist du</translation>
+		</message>
+		<message>
+			<source>Last log-in</source>
+			<translation>Letzte Anmeldung</translation>
+		</message>
+		<message>
+			<source>Status</source>
+			<translation>Status</translation>
+		</message>
+		<message>
+			<source>Confirmed</source>
+			<translation>Bestätigt</translation>
+		</message>
+		<message>
+			<source>Not confirmed</source>
+			<translation>Nicht bestätigt</translation>
+		</message>
+		<message>
+			<source>Delete</source>
+			<translation>Löschen</translation>
+		</message>
+	</context>
 </language>
 

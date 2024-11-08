@@ -380,4 +380,39 @@
 			<translation>Вы пытаетесь войти в аккаунт с нового IP-адреса. Вам была отправлена инструкция с подтверждением входа.</translation>
 		</message>
 	</context>
+	<context>
+		<name>UIApprovedIpAddresses</name>
+		<message>
+			<source>Approved IP Addresses</source>
+			<translation>Подтверждённые IP-адреса</translation>
+		</message>
+		<message>
+			<source>IP address</source>
+			<translation>IP-адрес</translation>
+		</message>
+		<message>
+			<source>It is you</source>
+			<translation>Это Вы</translation>
+		</message>
+		<message>
+			<source>Last log-in</source>
+			<translation>Последний вход</translation>
+		</message>
+		<message>
+			<source>Status</source>
+			<translation>Статус</translation>
+		</message>
+		<message>
+			<source>Confirmed</source>
+			<translation>Подтверждён</translation>
+		</message>
+		<message>
+			<source>Not confirmed</source>
+			<translation>Не подтверждён</translation>
+		</message>
+		<message>
+			<source>Delete</source>
+			<translation>Удалить</translation>
+		</message>
+	</context>
 </language>

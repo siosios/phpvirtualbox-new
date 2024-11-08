@@ -380,4 +380,39 @@
 			<translation>Você está tentando fazer login na sua conta a partir de um novo endereço IP. Você recebeu uma mensagem de confirmação de login.</translation>
 		</message>
 	</context>
+	<context>
+		<name>UIApprovedIpAddresses</name>
+		<message>
+			<source>Approved IP Addresses</source>
+			<translation>Endereços IP aprovados</translation>
+		</message>
+		<message>
+			<source>IP address</source>
+			<translation>Endereço IP</translation>
+		</message>
+		<message>
+			<source>It is you</source>
+			<translation>É você</translation>
+		</message>
+		<message>
+			<source>Last log-in</source>
+			<translation>Último login</translation>
+		</message>
+		<message>
+			<source>Status</source>
+			<translation>Status</translation>
+		</message>
+		<message>
+			<source>Confirmed</source>
+			<translation>Confirmado</translation>
+		</message>
+		<message>
+			<source>Not confirmed</source>
+			<translation>Não confirmado</translation>
+		</message>
+		<message>
+			<source>Delete</source>
+			<translation>Excluir</translation>
+		</message>
+	</context>
 </language>

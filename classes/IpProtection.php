@@ -101,6 +101,39 @@ final class IpProtection
         return false;
     }
 
+    public function delete(string $username, string $address)
+    {
+        if ($this->db === null) {
+            return;
+        }
+
+        $dbUsername = SQLite3::escapeString($username);
+        $dbAddress = SQLite3::escapeString($address);
+
+        $this->db->exec("DELETE FROM addresses WHERE username='$dbUsername' AND address='$dbAddress'");
+    }
+
+    public function getApprovedAddresses(string $username): array
+    {
+        if ($this->db === null) {
+            return [];
+        }
+
+        $dbUsername = SQLite3::escapeString($username);
+        $all = $this->db->query("SELECT * FROM addresses WHERE username='$dbUsername'");
+        $result = [];
+
+        while ($row = $all->fetchArray()) {
+            $result[] = [
+                'address' => $row['address'],
+                'lastupdate' => ($row['adstate'] == self::STATE_CONFIRMED ? date('Y-m-d H:i', $row['lastupdate']) : ''),
+                'adstate' => $row['adstate']
+            ];
+        }
+
+        return $result;
+    }
+
     public function approve(string $encoded): int
     {
         if ($this->db === null) {

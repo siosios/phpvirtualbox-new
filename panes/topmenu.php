@@ -7,7 +7,7 @@ require_once(dirname(__FILE__).'/../endpoints/lib/vboxconnector.php');
 // Init session
 global $_SESSION;
 session_init(true);
-
+$settings = new phpVBoxConfigClass();
 $is_admin = !!$_SESSION['admin'];
 ?>
 
@@ -68,6 +68,26 @@ var menu = {
         <?php endif;?>
 	]
 };
+
+<?php if($settings->pathToIpProtectionDatabase): ?>
+menu.menu.push({
+    name: 'approvedIpAddresses',
+    label: trans('Approved IP Addresses','UIApprovedIpAddresses'),
+    icon: 'nw',
+    click: function() {
+        var l = new vboxLoader();
+        l.addFileToDOM('panes/approvedIpAddresses.php');
+        l.onLoad = function(){
+            var buttons = {};
+            buttons[trans('Cancel','QIMessageBox')] = function(){
+                $(this).remove();
+            };
+            $('#vboxApprovedIpAddresses').dialog({'closeOnEscape':false,'width':1000,'height':500,'buttons':buttons,'modal':true,'autoOpen':true,'dialogClass':'vboxDialogContent','title':'<img src="images/vbox/nw_16px.png" class="vboxDialogTitleIcon" /> '+trans('Approved IP Addresses','UIApprovedIpAddresses')});
+        };
+        l.run();
+    }
+});
+<?php endif; ?>
 
 if($('#vboxPane').data('vboxSession').user) {
 	if ( $('#vboxPane').data('vboxConfig').authCapabilities.canChangePassword )
