@@ -373,4 +373,39 @@
 			<translation>確認碼無效。</translation>
 		</message>
 	</context>
+	<context>
+		<name>UIApprovedIpAddresses</name>
+		<message>
+			<source>Approved IP Addresses</source>
+			<translation>核准的 IP 位址</translation>
+		</message>
+		<message>
+			<source>IP address</source>
+			<translation>IP位址</translation>
+		</message>
+		<message>
+			<source>It is you</source>
+			<translation>是你</translation>
+		</message>
+		<message>
+			<source>Last log-in</source>
+			<translation>上次登入</translation>
+		</message>
+		<message>
+			<source>Status</source>
+			<translation>地位</translation>
+		</message>
+		<message>
+			<source>Confirmed</source>
+			<translation>確認的</translation>
+		</message>
+		<message>
+			<source>Not confirmed</source>
+			<translation>未確認</translation>
+		</message>
+		<message>
+			<source>Delete</source>
+			<translation>刪除</translation>
+		</message>
+	</context>
 </language> 

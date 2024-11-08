@@ -373,5 +373,40 @@
 			<translation>確認コードが無効です。</translation>
 		</message>
 	</context>
+	<context>
+		<name>UIApprovedIpAddresses</name>
+		<message>
+			<source>Approved IP Addresses</source>
+			<translation>承認された IP アドレス</translation>
+		</message>
+		<message>
+			<source>IP address</source>
+			<translation>IPアドレス</translation>
+		</message>
+		<message>
+			<source>It is you</source>
+			<translation>それはあなたです</translation>
+		</message>
+		<message>
+			<source>Last log-in</source>
+			<translation>最終ログイン</translation>
+		</message>
+		<message>
+			<source>Status</source>
+			<translation>状態</translation>
+		</message>
+		<message>
+			<source>Confirmed</source>
+			<translation>確認済み</translation>
+		</message>
+		<message>
+			<source>Not confirmed</source>
+			<translation>未確認</translation>
+		</message>
+		<message>
+			<source>Delete</source>
+			<translation>消去</translation>
+		</message>
+	</context>
 </language>
 

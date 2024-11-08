@@ -373,4 +373,39 @@
 			<translation>Potvrzovací kód je neplatný.</translation>
 		</message>
 	</context>
+	<context>
+		<name>UIApprovedIpAddresses</name>
+		<message>
+			<source>Approved IP Addresses</source>
+			<translation>Schválené IP adresy</translation>
+		</message>
+		<message>
+			<source>IP address</source>
+			<translation>IP adresa</translation>
+		</message>
+		<message>
+			<source>It is you</source>
+			<translation>Jste to vy</translation>
+		</message>
+		<message>
+			<source>Last log-in</source>
+			<translation>Poslední přihlášení</translation>
+		</message>
+		<message>
+			<source>Status</source>
+			<translation>Postavení</translation>
+		</message>
+		<message>
+			<source>Confirmed</source>
+			<translation>Potvrzeno</translation>
+		</message>
+		<message>
+			<source>Not confirmed</source>
+			<translation>Nepotvrzeno</translation>
+		</message>
+		<message>
+			<source>Delete</source>
+			<translation>Vymazat</translation>
+		</message>
+	</context>
 </language>

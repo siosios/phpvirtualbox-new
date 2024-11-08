@@ -373,5 +373,40 @@
 			<translation>El código de confirmación no es válido.</translation>
 		</message>
 	</context>
+	<context>
+		<name>UIApprovedIpAddresses</name>
+		<message>
+			<source>Approved IP Addresses</source>
+			<translation>Direcciones IP Aprobadas</translation>
+		</message>
+		<message>
+			<source>IP address</source>
+			<translation>Dirección IP</translation>
+		</message>
+		<message>
+			<source>It is you</source>
+			<translation>Eres tú</translation>
+		</message>
+		<message>
+			<source>Last log-in</source>
+			<translation>Último inicio de sesión</translation>
+		</message>
+		<message>
+			<source>Status</source>
+			<translation>Estado</translation>
+		</message>
+		<message>
+			<source>Confirmed</source>
+			<translation>Confirmado</translation>
+		</message>
+		<message>
+			<source>Not confirmed</source>
+			<translation>No confirmado</translation>
+		</message>
+		<message>
+			<source>Delete</source>
+			<translation>Borrar</translation>
+		</message>
+	</context>
 </language>
 

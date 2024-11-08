@@ -373,4 +373,39 @@
 			<translation>Bekræftelseskoden er ugyldig.</translation>
 		</message>
 	</context>
+	<context>
+		<name>UIApprovedIpAddresses</name>
+		<message>
+			<source>Approved IP Addresses</source>
+			<translation>Godkendte IP-adresser</translation>
+		</message>
+		<message>
+			<source>IP address</source>
+			<translation>IP-adresse</translation>
+		</message>
+		<message>
+			<source>It is you</source>
+			<translation>Det er dig</translation>
+		</message>
+		<message>
+			<source>Last log-in</source>
+			<translation>Sidste log-in</translation>
+		</message>
+		<message>
+			<source>Status</source>
+			<translation>Status</translation>
+		</message>
+		<message>
+			<source>Confirmed</source>
+			<translation>Bekræftet</translation>
+		</message>
+		<message>
+			<source>Not confirmed</source>
+			<translation>Ikke bekræftet</translation>
+		</message>
+		<message>
+			<source>Delete</source>
+			<translation>Slet</translation>
+		</message>
+	</context>
 </language>

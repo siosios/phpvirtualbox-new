@@ -373,5 +373,40 @@
 			<translation>Bevestigingscode is ongeldig.</translation>
 		</message>
 	</context>
+	<context>
+		<name>UIApprovedIpAddresses</name>
+		<message>
+			<source>Approved IP Addresses</source>
+			<translation>Goedgekeurde IP-adressen</translation>
+		</message>
+		<message>
+			<source>IP address</source>
+			<translation>IP-adres</translation>
+		</message>
+		<message>
+			<source>It is you</source>
+			<translation>Het ben jij</translation>
+		</message>
+		<message>
+			<source>Last log-in</source>
+			<translation>Laatste keer inloggen</translation>
+		</message>
+		<message>
+			<source>Status</source>
+			<translation>Staat</translation>
+		</message>
+		<message>
+			<source>Confirmed</source>
+			<translation>Bevestigd</translation>
+		</message>
+		<message>
+			<source>Not confirmed</source>
+			<translation>Niet bevestigd</translation>
+		</message>
+		<message>
+			<source>Delete</source>
+			<translation>Verwijderen</translation>
+		</message>
+	</context>
 </language>
 
