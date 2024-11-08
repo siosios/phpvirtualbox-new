@@ -1,1 +1,29 @@
 RedirectMatch 404 /\.git
+<Files "config.php">
+  Order Allow,Deny
+  Deny from all
+</Files>
+<Files "additionalData.php">
+  Order Allow,Deny
+  Deny from all
+</Files>
+<Files "additionalData.example.php">
+  Order Allow,Deny
+  Deny from all
+</Files>
+<Files "config.php-example">
+  Order Allow,Deny
+  Deny from all
+</Files>
+<Files "docker-compose.yml">
+  Order Allow,Deny
+  Deny from all
+</Files>
+<Files "Dockerfile">
+  Order Allow,Deny
+  Deny from all
+</Files>
+<Files "vboxinit">
+  Order Allow,Deny
+  Deny from all
+</Files>

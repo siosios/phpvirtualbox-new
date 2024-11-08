@@ -373,4 +373,11 @@
 			<translation>Bekræftelseskoden er ugyldig.</translation>
 		</message>
 	</context>
+	<context>
+		<name>UITranslatableCommonErrors</name>
+		<message>
+			<source>You are attempting to log in to your account from a new IP address. You have been sent a login confirmation message.</source>
+			<translation>Du forsøger at logge ind på din konto fra en ny IP-adresse. Du har fået tilsendt en login-bekræftelsesmeddelelse.</translation>
+		</message>
+	</context>
 </language>

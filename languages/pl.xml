@@ -373,5 +373,12 @@
 			<translation>Kod potwierdzający jest nieprawidłowy.</translation>
 		</message>
 	</context>
+	<context>
+		<name>UITranslatableCommonErrors</name>
+		<message>
+			<source>You are attempting to log in to your account from a new IP address. You have been sent a login confirmation message.</source>
+			<translation>Próbujesz zalogować się do swojego konta z nowego adresu IP. Otrzymałeś wiadomość z potwierdzeniem logowania.</translation>
+		</message>
+	</context>
 </language>
 

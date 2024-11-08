@@ -4224,7 +4224,7 @@ class vboxconnector {
 						'state' => (string)$machine->state,
 						'OSTypeId' => $machine->getOSTypeId(),
 						'owner' => (@$this->settings->enforceVMOwnership ? $machine->getExtraData("phpvb/sso/owner") : ''),
-						'groups' => $newGroups,
+						'groups' => (!!$_SESSION['admin'] ? $groups : $newGroups),
 						'lastStateChange' => (string)($machine->lastStateChange/1000),
 						'id' => $machine->id,
 						'currentStateModified' => $machine->currentStateModified,

@@ -178,7 +178,7 @@ function vboxAjaxRequest(fn,params,config) {
 					} else {
 						
 						// Error from normal request
-						vboxAlert(d.errors[i],{'width':'400px'});
+						vboxAlert(trans(d.errors[i], 'UITranslatableCommonErrors'),{'width':'400px'});
 					}
 					
 				} // </ foreach error >
