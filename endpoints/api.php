@@ -284,6 +284,14 @@ try {
             }
             break;
 
+        case 'deleteApprovedAddress':
+            if (!$request['params']['a']) {
+                break;
+            }
+            session_init(true);
+            IpProtection::getInstance()->delete($_SESSION['user'], $request['params']['a']);
+            break;
+
 		/*
 		 *
 		 * USER FUNCTIONS FOLLOW
